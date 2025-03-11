@@ -5,7 +5,7 @@ import { useLogInStore } from '../../store/stores';
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { loged } = useLogInStore();
     
-  if (loged) {
+  if (!loged) {
     return <Navigate to="/login" replace />;
   }
   
