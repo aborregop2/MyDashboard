@@ -1,6 +1,6 @@
-import { MyBarChart } from "./components/ui/barchart"
-import { MyAreaChart } from "./components/ui/areachart"
-import { MyPieChart } from "./components/ui/piechart"
+import { MyBarChart } from "../components/ui/barchart"
+import { MyAreaChart } from "../components/ui/areachart"
+import { MyPieChart } from "../components/ui/piechart"
 
 
 export default function Dashboard({ darkMode }: { darkMode: boolean }) {
