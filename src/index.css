@@ -1,20 +1,15 @@
-html {
-    font-size: 14px;
+/* Estructura de capas CSS */
+@layer tailwind-base, primereact;
+
+
+/* Capa base de Tailwind */
+@layer tailwind-base {
+  @import 'tailwindcss';
 }
 
-body {
-    font-family: var(--font-family);
-    font-weight: normal;
-    background: var(--surface-ground);
-    color: var(--text-color);
-    padding: 1rem;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.card {
-    background: var(--surface-card);
-    padding: 2rem;
-    border-radius: 10px;
-    margin-bottom: 1rem;
+/* Capa de estilos de PrimeReact */
+@layer primereact {
+  @import "primereact/resources/themes/saga-blue/theme.css";
+  @import "primereact/resources/primereact.min.css";
+  @import "primeicons/primeicons.css";
 }

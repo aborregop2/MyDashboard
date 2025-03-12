@@ -1,30 +1,28 @@
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import { BrowserRouter, Routes, Route } from "react-router";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
-import Dashboard from './pages/Dashboard.tsx';
-import LogIn from './pages/LogIn.tsx';
-import DarkModeButton from './components/ui/DarkModeButton.tsx';
-
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
-
-
-import { useDarkModeStore } from './store/stores.tsx';
-import ProtectedRoute from './components/ui/ProtectedRoute.tsx';
-
-
-
-export default function App() {
-  const { darkMode, toggleTheme } = useDarkModeStore();
-
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<LogIn darkMode={darkMode} />} />
-        <Route path="/login" element={<LogIn darkMode={darkMode}/>} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard darkMode={darkMode}/>
-          </ProtectedRoute>
-        } />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/dashboard" element= {
+
+          //<ProtectedRoute>
+            <Dashboard />
+          //</ProtectedRoute>
+
+        } 
+        />
       </Routes>
     </BrowserRouter>
   );
 }
+
+export default App;
