@@ -6,12 +6,12 @@ import { Avatar } from "primereact/avatar"
 import { Button } from "primereact/button"
 import { ToggleButton } from "primereact/togglebutton"
 
-import { useLoginStore, useDarkmodeStore } from "../store/index"
+import { useAuthStore, useDarkmodeStore } from "../store/index"
 import { useNavigate } from "react-router"
 
 
 export default function Topbar() {
-  const { isLogin, setIsLogin } = useLoginStore()
+  const { isAuth, setIsAuth } = useAuthStore()
   const { isDarkmode, setIsDarkmode } = useDarkmodeStore()
 
   const navigator = useNavigate()
@@ -48,19 +48,21 @@ export default function Topbar() {
     <div className="flex items-center gap-2">
       <InputText placeholder="Search" type="text" className="w-32 sm:w-48" />
       <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" />
-      {isLogin && (
+      {isAuth && (
         <Button
           icon="pi pi-sign-out"
           label="Logout"
           severity="danger"
           onClick={() => {
-            setIsLogin(false)
+            setIsAuth(false)
             navigator("/login")
           }}
           className="flex items-center justify-center px-4"
+          
         />
       )}
     </div>
+    
   )
 
   return (

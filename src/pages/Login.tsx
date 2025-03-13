@@ -3,8 +3,9 @@
 import type React from "react"
 import { useForm } from "react-hook-form"
 
-import { useLoginStore, useShowPassword, useIsSubmitting } from "../store/index"
+import { useAuthStore, useShowPassword } from "../store/index"
 import { useNavigate } from "react-router"
+import { useState } from "react"
 
 type LoginFormData = {
   email: string
@@ -13,8 +14,8 @@ type LoginFormData = {
 }
 
 const LoginForm: React.FC = () => {
-  const { setIsLogin } = useLoginStore()
-  const { isSubmitting, setIsSubmitting } = useIsSubmitting()
+  const { setIsAuth } = useAuthStore()
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
   const { showPassword, setShowPassword } = useShowPassword()
 
   const navigate = useNavigate()
@@ -48,7 +49,7 @@ const LoginForm: React.FC = () => {
       }
 
       setIsSubmitting(false);
-      setIsLogin(true)
+      setIsAuth(true)
       navigate("/dashboard")
 
     } catch (error) {

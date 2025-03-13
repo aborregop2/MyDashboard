@@ -3,15 +3,14 @@
 import { Chart } from "primereact/chart"
 import Topbar from "../components/Topbar"
 import { useEffect, useState } from "react"
-import { useLoginStore } from "../store/index"
-
+import { useAuthStore } from "../store/index"
 
 
 export default function Dashboard() {
 
-  const {isLogin ,setIsLogin } = useLoginStore()
-  if (!isLogin) {
-    setIsLogin(true)
+  const {isAuth, setIsAuth } = useAuthStore()
+  if (!isAuth) {
+    setIsAuth(true)
   }
 
   // Chart states

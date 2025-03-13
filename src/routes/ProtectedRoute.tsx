@@ -1,20 +1,21 @@
 import { ReactElement } from 'react';
 import { Navigate } from 'react-router';
 
-import { useLoginStore } from '../store/index';
+import { useAuthStore } from '../store/index';
 
 type ProtectedRouteProps = {
   children: ReactElement;
 };
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isLogin } = useLoginStore();
+  const { isAuth } = useAuthStore();
 
-  if (!isLogin) {
+  if (!isAuth) {
     return <Navigate to="/login" replace />;
   }
 
   return children;
 };
+
 
 export default ProtectedRoute;
