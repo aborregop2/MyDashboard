@@ -1,17 +1,17 @@
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router";
+import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Topbar from "./components/Topbar";
 
 function App() {
   return (
+    <>
     <BrowserRouter>
+      <Topbar/>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
+        <Route path="/" element={<Authentication />} />
+        <Route path="/auth" element={<Authentication />} />
         <Route path="/dashboard" element= {
 
           //<ProtectedRoute>
@@ -22,6 +22,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 

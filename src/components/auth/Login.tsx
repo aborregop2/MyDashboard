@@ -1,11 +1,10 @@
-"use client"
-
-import type React from "react"
+import React, { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
-
-import { useAuthStore, useShowPassword } from "../store/index"
+import { useAuthStore, useInLogin } from "../../store/index"
 import { useNavigate } from "react-router"
-import { useState } from "react"
+import { Toast } from 'primereact/toast';
+
+
 
 type LoginFormData = {
   email: string
@@ -15,12 +14,13 @@ type LoginFormData = {
 
 const LoginForm: React.FC = () => {
   const { setIsAuth } = useAuthStore()
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
-  const { showPassword, setShowPassword } = useShowPassword()
+  const { setInLogin } = useInLogin()
 
-  //TODO: Show password state
+  const [ showPassword, setShowPassword ] = useState(false)
+  const [ isSubmitting, setIsSubmitting ] = useState(false)
 
   const navigate = useNavigate()
+  const toast = useRef<Toast>(null);
 
   const {
     register,
@@ -30,6 +30,7 @@ const LoginForm: React.FC = () => {
     defaultValues: {
       rememberMe: false,
     },
+    mode: "onBlur",
   })
 
   const onSubmit = async (data: LoginFormData) => {
@@ -37,8 +38,9 @@ const LoginForm: React.FC = () => {
 
     try {
       const responseGET = await fetch("http://localhost:3000/users")
+      if (!responseGET.ok) throw new Error('Failed to fetch users')
+      
       const dataGET = await responseGET.json()
-
       const user = dataGET.find(
         (user: { email: string; password: string }) =>
           user.email === data.email && user.password === data.password
@@ -46,21 +48,43 @@ const LoginForm: React.FC = () => {
 
       if (!user) {
         setIsSubmitting(false);
-        alert("Invalid email or password");
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Invalid email or password',
+          life: 3000
+        });
         return;
       }
 
       setIsSubmitting(false);
       setIsAuth(true)
-      navigate("/dashboard")
+      
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Welcome! :-)',
+        life: 2000
+      });
+      
+      //navigate("/dashboard")
 
     } catch (error) {
       console.error("Login failed:", error)
+      setIsSubmitting(false)
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Login failed. Please try again.',
+        life: 3000
+      });
     }
   }
-
+  
   return (
+    
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-8">
+      <Toast ref={toast} position="top-right"/>
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-center text-gray-800">Welcome Back</h2>
@@ -213,7 +237,7 @@ const LoginForm: React.FC = () => {
         <div className="p-6 border-t border-gray-200 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <a className="text-blue-600 font-medium hover:underline" href="/register">
+            <a className="text-blue-600 font-medium hover:cursor-pointer" onClick={() => setInLogin(false)}>
               Sign up
             </a>
           </p>

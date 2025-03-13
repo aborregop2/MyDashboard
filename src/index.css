@@ -1,15 +1,13 @@
-/* Estructura de capas CSS */
+
 @layer tailwind-base, primereact;
 
+/* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
+@layer primereact {
+  @import 'primereact/resources/themes/lara-light-blue/theme.css';
+  @import 'primeicons/primeicons.css';
+}
 
-/* Capa base de Tailwind */
 @layer tailwind-base {
   @import 'tailwindcss';
 }
 
-/* Capa de estilos de PrimeReact */
-@layer primereact {
-  @import "primereact/resources/themes/saga-blue/theme.css";
-  @import "primereact/resources/primereact.min.css";
-  @import "primeicons/primeicons.css";
-}
