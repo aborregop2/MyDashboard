@@ -18,6 +18,8 @@ const LoginForm: React.FC = () => {
   const [ isSubmitting, setIsSubmitting ] = useState(false)
   const { showPassword, setShowPassword } = useShowPassword()
 
+  //TODO: Show password state
+
   const navigate = useNavigate()
 
   const {

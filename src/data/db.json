@@ -1,4 +1,12 @@
 {
   "users": [
+    {
+      "id": "58cf",
+      "firstName": "Adrián",
+      "lastName": "Borrego",
+      "email": "adri@gmail.com",
+      "password": "12345678",
+      "confirmPassword": "12345678"
+    }
   ]
 }
