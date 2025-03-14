@@ -2,22 +2,24 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Topbar from "./components/Topbar";
+import Layout from "./layouts/Layout";
 
-//TODO: Put ProtectedRoute
-//TODO: Put Sidebar
 //TODO: Put toasts
 
 function App() {
   return (
     <>
     <BrowserRouter>
-      <Topbar/>
       <Routes>
-        <Route path="/" element={<Authentication />} />
-        <Route path="/auth" element={<Authentication />} />
-        
-        <Route path="/dashboard" element= {<Dashboard />} />
+        <Route element={<Layout/>} >
+          <Route path="/" element={<Authentication />} />
+          <Route path="/auth" element={<Authentication />} />
+
+          <Route element={<ProtectedRoute/>} >
+            <Route path="/dashboard" element= {<Dashboard />} />
+          </Route>
+
+        </Route>
       
       </Routes>
     </BrowserRouter>

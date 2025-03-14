@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react"
+"use client"
+
+import type React from "react"
+import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { useAuthStore, useInLogin, useDarkmodeStore } from "../../store/index"
 import { useNavigate } from "react-router"
-import { Toast } from 'primereact/toast';
-
-
+import { Toast } from "primereact/toast"
+import { Eye, EyeIcon as EyeClosed } from "lucide-react"
 
 type LoginFormData = {
   email: string
@@ -15,13 +17,13 @@ type LoginFormData = {
 const LoginForm: React.FC = () => {
   const { setIsAuth } = useAuthStore()
   const { setInLogin } = useInLogin()
-  const { isDarkmode } = useDarkmodeStore();
+  const { isDarkmode } = useDarkmodeStore()
 
-  const [ showPassword, setShowPassword ] = useState(false)
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const navigate = useNavigate()
-  const toast = useRef<Toast>(null);
+  const toast = useRef<Toast>(null)
 
   const {
     register,
@@ -39,57 +41,62 @@ const LoginForm: React.FC = () => {
 
     try {
       const responseGET = await fetch("http://localhost:3000/users")
-      if (!responseGET.ok) throw new Error('Failed to fetch users')
-      
+      if (!responseGET.ok) throw new Error("Failed to fetch users")
+
       const dataGET = await responseGET.json()
       const user = dataGET.find(
-        (user: { email: string; password: string }) =>
-          user.email === data.email && user.password === data.password
-      );
+        (user: { email: string; password: string }) => user.email === data.email && user.password === data.password,
+      )
 
       if (!user) {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
         toast.current?.show({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Invalid email or password',
-          life: 3000
-        });
-        return;
+          severity: "error",
+          summary: "Error",
+          detail: "Invalid email or password",
+          life: 3000,
+        })
+        return
       }
 
-      setIsSubmitting(false);
+      setIsSubmitting(false)
       setIsAuth(true)
-      
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Welcome! :-)',
-        life: 2000
-      });
-      
-      navigate("/dashboard")
 
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Welcome! :-)",
+        life: 2000,
+      })
+
+      navigate("/dashboard")
     } catch (error) {
       console.error("Login failed:", error)
       setIsSubmitting(false)
       toast.current?.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Login failed. Please try again.',
-        life: 3000
-      });
+        severity: "error",
+        summary: "Error",
+        detail: "Login failed. Please try again.",
+        life: 3000,
+      })
     }
   }
-  
+
   return (
-    
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-8">
-      <Toast ref={toast} position="top-right"/>
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-center text-gray-800">Welcome Back</h2>
-          <p className="text-center text-gray-600 mt-1">Sign in to your account</p>
+    <div
+      className={`flex items-center justify-center min-h-screen px-4 py-8 ${isDarkmode ? "bg-gray-900" : "bg-gray-50"}`}
+    >
+      <Toast ref={toast} position="top-right" />
+      <div
+        className={`w-full max-w-md rounded-xl shadow-lg overflow-hidden ${isDarkmode ? "bg-gray-800" : "bg-white"}`}
+      >
+        <div className={`p-6 border-b ${isDarkmode ? "border-gray-700" : "border-gray-200"}`}>
+          <h2 className={`text-2xl font-bold text-center ${isDarkmode ? "text-white" : "text-gray-800"}`}>
+            Welcome Back
+          </h2>
+          <p className={`text-center mt-1 ${isDarkmode ? "text-gray-300" : "text-gray-600"}`}>
+            Sign in to your account
+          </p>
         </div>
 
         <div className="p-6">
@@ -97,7 +104,7 @@ const LoginForm: React.FC = () => {
             <div className="space-y-2">
               <label
                 htmlFor="email"
-                className={`block text-sm font-medium ${errors.email ? "text-red-600" : "text-gray-700"}`}
+                className={`block text-sm font-medium ${errors.email ? "text-red-600" : isDarkmode ? "text-gray-200" : "text-gray-700"}`}
               >
                 Email
               </label>
@@ -106,7 +113,7 @@ const LoginForm: React.FC = () => {
                 type="email"
                 placeholder="your.email@example.com"
                 aria-invalid={errors.email ? "true" : "false"}
-                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
+                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors ${isDarkmode ? "bg-gray-700 text-white border-gray-600" : ""}`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -126,7 +133,7 @@ const LoginForm: React.FC = () => {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className={`block text-sm font-medium ${errors.password ? "text-red-600" : "text-gray-700"}`}
+                  className={`block text-sm font-medium ${errors.password ? "text-red-600" : isDarkmode ? "text-gray-200" : "text-gray-700"}`}
                 >
                   Password
                 </label>
@@ -137,47 +144,18 @@ const LoginForm: React.FC = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   aria-invalid={errors.password ? "true" : "false"}
-                  className={`w-full px-3 py-2 border ${errors.password ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
+                  className={`w-full px-3 py-2 border ${errors.password ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors ${isDarkmode ? "bg-gray-700 text-white border-gray-600" : ""}`}
                   {...register("password", {
                     required: "Password is required",
                   })}
                 />
                 <button
                   type="button"
-                  className="absolute right-0 top-0 h-full px-3 py-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  className={`absolute right-0 top-0 h-full px-3 py-2 ${isDarkmode ? "text-gray-300 hover:text-gray-100" : "text-gray-500 hover:text-gray-700"} focus:outline-none`}
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    //TODO: LucideIcons para el ojo
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  )}
+                  {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
                 </button>
               </div>
               {errors.password && (
@@ -194,7 +172,10 @@ const LoginForm: React.FC = () => {
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 {...register("rememberMe")}
               />
-              <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+              <label
+                htmlFor="rememberMe"
+                className={`ml-2 block text-sm ${isDarkmode ? "text-gray-200" : "text-gray-700"}`}
+              >
                 Remember me
               </label>
             </div>
@@ -206,6 +187,7 @@ const LoginForm: React.FC = () => {
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
+                  {/*TODO: Put an spinner component here */}
                   <svg
                     className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
                     xmlns="http://www.w3.org/2000/svg"
@@ -233,13 +215,15 @@ const LoginForm: React.FC = () => {
               )}
             </button>
           </form>
-          
         </div>
 
-        <div className="p-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-600">
+        <div className={`p-6 border-t ${isDarkmode ? "border-gray-700" : "border-gray-200"} text-center`}>
+          <p className={`text-sm ${isDarkmode ? "text-gray-300" : "text-gray-600"}`}>
             Don't have an account?{" "}
-            <a className="text-blue-600 font-medium hover:cursor-pointer" onClick={() => setInLogin(false)}>
+            <a
+              className="text-blue-500 font-medium hover:cursor-pointer hover:text-blue-400"
+              onClick={() => setInLogin(false)}
+            >
               Sign up
             </a>
           </p>

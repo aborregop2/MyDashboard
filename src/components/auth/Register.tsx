@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { Toast } from 'primereact/toast';
 import { useAuthStore, useInLogin, useDarkmodeStore } from "../../store"
 import { useNavigate } from "react-router"
+import { Eye, EyeClosed } from "lucide-react";
 
 type FormData = {
   firstName: string
@@ -199,35 +200,7 @@ const Register = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  )}
+                  {showPassword ? <Eye size={20} className="cursor-pointer" /> : <EyeClosed size={20} className="cursor-pointer" />}
                 </button>
               </div>
               {errors.password && (
@@ -283,35 +256,9 @@ const Register = () => {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                 >
-                  {showConfirmPassword ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  )}
+                
+                {showConfirmPassword ? <Eye size={20} className="cursor-pointer" /> : <EyeClosed size={20} className="cursor-pointer" />}
+
                 </button>
               </div>
               {errors.confirmPassword && (
@@ -360,7 +307,7 @@ const Register = () => {
         <div className={`p-6 border-t ${isDarkmode ? 'border-gray-700' : 'border-gray-200'} text-center`}>
           <p className={`text-sm ${isDarkmode ? 'text-gray-400' : 'text-gray-500'}`}>
             Already have an account?{" "}
-            <a className="text-blue-600 font-medium hover:cursor-pointer" onClick={() => setInLogin(true)}>
+            <a className="text-blue-600 font-medium cursor-pointer" onClick={() => setInLogin(true)}>
               Login here
             </a>
           </p>

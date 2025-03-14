@@ -3,15 +3,17 @@ import { useState } from "react"
 import { Menubar } from "primereact/menubar"
 import { Avatar } from "primereact/avatar"
 import { Button } from "primereact/button"
-import { useAuthStore, useDarkmodeStore } from "../store/index"
+import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../store/index"
 import { useNavigate } from "react-router"
 
 export default function Topbar() {
   const { isAuth, setIsAuth } = useAuthStore()
   const { isDarkmode, setIsDarkmode } = useDarkmodeStore()
-  const [showMenu, setShowMenu] = useState(false)
 
-  const navigator = useNavigate()
+  const [showMenu, setShowMenu] = useState(false)
+  const {showSidebar, setShowSidebar} = useShowSidebar()
+
+  const navigate = useNavigate()
 
   const changeTheme = (theme: string) => {
     const existingLink = document.getElementById('theme-link');
@@ -34,7 +36,11 @@ export default function Topbar() {
 
   const start = (
     <div className="flex items-center gap-2">
-      <img alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" width={50} className="mr-2" />
+      <img alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" width={50} className="mr-2"
+      onClick={() => {
+        if (isAuth) setShowSidebar(!showSidebar);
+      }}
+      />
       <h1 className="text-blue-500 text-xl font-bold">THE BIG BIG COMPANY</h1>
     </div>
   )
@@ -74,7 +80,7 @@ export default function Topbar() {
               className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 setIsAuth(false)
-                navigator("/auth")
+                navigate("/auth")
               }}
             >
               <i className="pi pi-sign-out mr-2"></i>
