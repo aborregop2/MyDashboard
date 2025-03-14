@@ -72,7 +72,7 @@ const Register = () => {
       
       setIsSubmitting(false)
       setIsAuth(true)
-      //navigate("/dashboard")
+      navigate("/dashboard")
     } catch (error) {
       setIsSubmitting(false)
 

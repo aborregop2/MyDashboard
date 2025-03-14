@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
 import { useAuthStore } from '../store/index';
 
-type ProtectedRouteProps = {
+interface ProtectedRouteProps {
   children: ReactElement;
 };
 
@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 

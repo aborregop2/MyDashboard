@@ -4,6 +4,10 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Topbar from "./components/Topbar";
 
+//TODO: Put ProtectedRoute
+//TODO: Put Sidebar
+//TODO: Put toasts
+
 function App() {
   return (
     <>
@@ -12,14 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Authentication />} />
         <Route path="/auth" element={<Authentication />} />
-        <Route path="/dashboard" element= {
-
-          //<ProtectedRoute>
-            <Dashboard />
-          //</ProtectedRoute>
-
-        } 
-        />
+        
+        <Route path="/dashboard" element= {<Dashboard />} />
+      
       </Routes>
     </BrowserRouter>
     </>

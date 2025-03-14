@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
-import { useAuthStore, useInLogin } from "../../store/index"
+import { useAuthStore, useInLogin, useDarkmodeStore } from "../../store/index"
 import { useNavigate } from "react-router"
 import { Toast } from 'primereact/toast';
 
@@ -15,6 +15,7 @@ type LoginFormData = {
 const LoginForm: React.FC = () => {
   const { setIsAuth } = useAuthStore()
   const { setInLogin } = useInLogin()
+  const { isDarkmode } = useDarkmodeStore();
 
   const [ showPassword, setShowPassword ] = useState(false)
   const [ isSubmitting, setIsSubmitting ] = useState(false)
@@ -67,7 +68,7 @@ const LoginForm: React.FC = () => {
         life: 2000
       });
       
-      //navigate("/dashboard")
+      navigate("/dashboard")
 
     } catch (error) {
       console.error("Login failed:", error)
@@ -148,6 +149,7 @@ const LoginForm: React.FC = () => {
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
+                    //TODO: LucideIcons para el ojo
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
