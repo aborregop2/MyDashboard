@@ -71,7 +71,8 @@ const Register = () => {
 
       // Get the created user directly from the response
       const newUser = await response.json()
-
+      console.log(newUser)
+      console.log(response)
       // Set user state directly
       setUser({
         email: data.email,

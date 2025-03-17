@@ -2,8 +2,8 @@ import { useState } from "react"
 import { Menubar } from "primereact/menubar"
 import { Menu } from 'lucide-react';
 import { Avatar } from "primereact/avatar"
-import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../store/index"
 import { useNavigate } from "react-router"
+import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../store";
 
 export default function Topbar() {
   const { user, setUser } = useAuthStore()

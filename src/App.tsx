@@ -13,14 +13,12 @@ function App() {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Authentication />} />
-          <Route path="/auth" element={<Authentication />} />
-
-        <Route element={<Layout/>} >
-          <Route element={<ProtectedRoute/>} >
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/users_panel" element={<UsersTable />} />
+          
+        <Route element={<ProtectedRoute/>} >
+          <Route element={<Layout/>} >
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/users_panel" element={<UsersTable />} />
           </Route>
-
         </Route>
       
       </Routes>
