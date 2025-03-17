@@ -9,9 +9,9 @@ interface SidebarLayoutProps {
 
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const { showSidebar, setShowSidebar } = useShowSidebar()
-  const { isAuth, setIsAuth } = useAuthStore()
+  const { user, setUser } = useAuthStore()
   const { isDarkmode } = useDarkmodeStore()
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const sidebarWidth = "20rem" 
 
@@ -41,8 +41,16 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
           >
             Dashboard
           </a>
+          {user?.role === 'admin' ? 
+          <a href="/dashboard" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          onClick={() => navigate('/users_panel')}
+          >
+            Users Panel
+          </a> 
+          : <></>
+          }
           <a href="/auth" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-          onClick={() => {setIsAuth(false)}}
+          onClick={() => {setUser(null)}}
           >
             Logout
           </a>

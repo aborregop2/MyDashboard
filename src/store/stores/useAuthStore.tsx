@@ -1,13 +1,18 @@
 import { create } from 'zustand';
 
-type AuthStore = {
-    isAuth: boolean;
-    setIsAuth: (isLogin: boolean) => void;
+type User = {
+    email: string;
+    role: string;
 };
 
-const useAuthStore = create<AuthStore>((set) => ({
-    isAuth: false,
-    setIsAuth: (isAuth) => set({ isAuth }),
+type UserStore = {
+    user: User | null,
+    setUser: (user: User | null) => void;
+};
+
+const useAuthStore = create<UserStore>((set) => ({
+    user: null,
+    setUser: (user) => set({ user }),
 }));
 
 

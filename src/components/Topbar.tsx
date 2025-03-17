@@ -1,59 +1,52 @@
-"use client"
 import { useState } from "react"
 import { Menubar } from "primereact/menubar"
+import { Menu } from 'lucide-react';
 import { Avatar } from "primereact/avatar"
-import { Button } from "primereact/button"
 import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../store/index"
 import { useNavigate } from "react-router"
 
 export default function Topbar() {
-  const { isAuth, setIsAuth } = useAuthStore()
+  const { user, setUser } = useAuthStore()
   const { isDarkmode, setIsDarkmode } = useDarkmodeStore()
-  const {showSidebar, setShowSidebar} = useShowSidebar()
+  const { showSidebar, setShowSidebar } = useShowSidebar()
 
   const [showMenu, setShowMenu] = useState(false)
-
   const navigate = useNavigate()
 
   const changeTheme = (theme: string) => {
     const existingLink = document.getElementById('theme-link');
-    if (existingLink) {
-        existingLink.remove();
-    }
+    if (existingLink) existingLink.remove();
 
     const link = document.createElement('link');
     link.id = 'theme-link';
     link.rel = 'stylesheet';
-    link.href = theme === 'dark'
-        ? '/dark-blue.css'
-        :  '/light-blue.css';
-
+    link.href = theme === 'dark' ? '/dark-blue.css' : '/light-blue.css';
     document.head.appendChild(link);
   }
 
   changeTheme(isDarkmode ? 'dark' : 'light');
 
+  const topbarBgColor = !isDarkmode ? { backgroundColor: '#a59794' } : {};
 
   const start = (
-    <div className="flex items-center gap-2">
-      <img alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" width={50} className="mr-2"
-      onClick={() => {
-        if (isAuth) setShowSidebar(!showSidebar);
-      }}
+    <div className="flex items-center gap-3">
+      {user && (
+        <Menu
+          size={30}
+          onClick={() => setShowSidebar(!showSidebar)}
+          className="p-2 hover:bg-gray-100/20 rounded-full transition-all cursor-pointer"
+        />
+      )}
+      <img
+        alt="logo"
+        src="https://primefaces.org/cdn/primereact/images/logo.png"
+        width={50}
+        className="mr-2 hover:scale-105 transition-transform"
       />
-      <h1 className="text-blue-500 text-xl font-bold">THE BIG BIG COMPANY</h1>
+      <h1 className={`text-xl font-bold tracking-wide ${!isDarkmode ? 'text-white' : 'text-blue-500'}`}>
+        THE BIG BIG COMPANY
+      </h1>
     </div>
-  )
-
-  const renderDarkModeToggle = () => (
-    <Button
-      icon={isDarkmode ? "pi pi-sun" : "pi pi-moon"}
-      rounded
-      text
-      aria-label="Toggle dark mode"
-      onClick={() => setIsDarkmode(!isDarkmode)}
-      className="p-button-lg"
-    />
   )
 
   const renderAvatar = () => (
@@ -63,27 +56,33 @@ export default function Topbar() {
         image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
         shape="circle"
         onClick={() => setShowMenu(!showMenu)}
-        className="cursor-pointer"
+        className="hover:ring-2 ring-blue-300 transition-all cursor-pointer"
+        aria-haspopup="true"
+        aria-expanded={showMenu}
       />
 
       {showMenu && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-          <div className="py-1">
+        <div 
+          className={`absolute right-0 mt-2 w-48 rounded-md shadow-xl border border-gray-200 dark:border-gray-700 z-50
+            transition-all duration-200 origin-top-right animate-slide-down`}
+        >
+          <div className="py-1.5">
             <a
-              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              className="flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer"
               onClick={() => setIsDarkmode(!isDarkmode)}
             >
-              <i className={`pi ${isDarkmode ? "pi-sun" : "pi-moon"} mr-2`}></i>
+              <i className={`pi ${isDarkmode ? "pi-sun" : "pi-moon"} mr-3`}></i>
               {isDarkmode ? "Light Mode" : "Dark Mode"}
             </a>
+            <hr className="my-1 border-gray-100 dark:border-gray-700" />
             <a
-              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              className="flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer"
               onClick={() => {
-                setIsAuth(false)
+                setUser(null)
                 navigate("/auth")
               }}
             >
-              <i className="pi pi-sign-out mr-2"></i>
+              <i className="pi pi-sign-out mr-3"></i>
               Logout
             </a>
           </div>
@@ -92,9 +91,14 @@ export default function Topbar() {
     </div>
   )
 
-  const end = isAuth ? renderAvatar() : renderDarkModeToggle()
+  const end = renderAvatar()
 
-  return <Menubar start={start} end={end} />
+  return (
+    <Menubar
+      start={start}
+      end={end}
+      style={topbarBgColor}
+      className="transition-all duration-300 h-16 shadow-sm"
+    />
+  )
 }
-
-

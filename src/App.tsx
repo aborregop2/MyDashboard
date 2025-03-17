@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
+import UsersTable from "./pages/UsersTable";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
 
@@ -11,12 +12,13 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout/>} >
           <Route path="/" element={<Authentication />} />
           <Route path="/auth" element={<Authentication />} />
 
+        <Route element={<Layout/>} >
           <Route element={<ProtectedRoute/>} >
-            <Route path="/dashboard" element= {<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/users_panel" element={<UsersTable />} />
           </Route>
 
         </Route>

@@ -4,8 +4,20 @@ import { Chart } from "primereact/chart"
 import { useEffect, useState } from "react"
 import { useDarkmodeStore } from "../store"
 
+import { useAuthStore } from "../store/index"
+import { useNavigate } from "react-router"
+
 export default function Dashboard() {
   const { isDarkmode } = useDarkmodeStore();
+  const { user } = useAuthStore();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user || !user.email) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
 
   const [barData, setBarData] = useState({})
   const [barOptions, setBarOptions] = useState({})

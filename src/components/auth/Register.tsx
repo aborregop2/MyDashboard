@@ -1,9 +1,15 @@
+"use client"
+
 import { useState, useRef } from "react"
-import { useForm } from "react-hook-form"
-import { Toast } from 'primereact/toast';
+import { useForm, Controller } from "react-hook-form"
+import { Toast } from "primereact/toast"
+import { InputText } from "primereact/inputtext"
+import { Button } from "primereact/button"
+import { Card } from "primereact/card"
+import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin, useDarkmodeStore } from "../../store"
 import { useNavigate } from "react-router"
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react"
 
 type FormData = {
   firstName: string
@@ -14,19 +20,18 @@ type FormData = {
 }
 
 const Register = () => {
-  const { setIsAuth } = useAuthStore()
+  const { setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
   const { isDarkmode } = useDarkmodeStore()
-  const toast = useRef<Toast>(null);
+  const toast = useRef<Toast>(null)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
   const navigate = useNavigate()
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     watch,
@@ -41,280 +46,250 @@ const Register = () => {
     try {
       const responseGET = await fetch("http://localhost:3000/users")
       const users = await responseGET.json()
-      console.log(users)
-
       const userExists = users.find((user: any) => user.email === data.email)
       if (userExists) {
         toast.current?.show({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'User already exists. Please log in.',
-          life: 3000
+          severity: "error",
+          summary: "Error",
+          detail: "User already exists. Please log in.",
+          life: 3000,
         })
         setIsSubmitting(false)
-        console.log('User already exists')
         return
       }
 
+      // Create the new user
       const response = await fetch("http://localhost:3000/users", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, role: "user" }),
       })
 
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Registration successful!',
-        life: 2000
+      if (!response.ok) {
+        throw new Error("Failed to create user")
+      }
+
+      // Get the created user directly from the response
+      const newUser = await response.json()
+
+      // Set user state directly
+      setUser({
+        email: data.email,
+        role: "user",
       })
-      
+
       setIsSubmitting(false)
-      setIsAuth(true)
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Registration successful!",
+        life: 2000,
+      })
+
+      // Navigate after state is set
       navigate("/dashboard")
     } catch (error) {
       setIsSubmitting(false)
-
       toast.current?.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: error instanceof Error ? error.message : 'Registration error. Please try again.',
-        life: 3000
+        severity: "error",
+        summary: "Error",
+        detail: error instanceof Error ? error.message : "Registration error. Please try again.",
+        life: 3000,
       })
     }
   }
 
+  const getFormErrorMessage = (name: keyof FormData) => {
+    return errors[name] ? <small className="p-error">{errors[name]?.message}</small> : null
+  }
+
+  // Password strength indicator
+  const PasswordStrengthIndicator = ({ password }: { password: string }) => (
+    <div className="p-2">
+      <h6>Password Strength</h6>
+      <div className="flex gap-1 mt-2">
+        <div className={`h-1 flex-1 rounded-full ${password?.length >= 8 ? "bg-green-500" : "bg-gray-200"}`}></div>
+        <div
+          className={`h-1 flex-1 rounded-full ${/[A-Z]/.test(password || "") ? "bg-green-500" : "bg-gray-200"}`}
+        ></div>
+        <div
+          className={`h-1 flex-1 rounded-full ${/[0-9]/.test(password || "") ? "bg-green-500" : "bg-gray-200"}`}
+        ></div>
+        <div
+          className={`h-1 flex-1 rounded-full ${/[^A-Za-z0-9]/.test(password || "") ? "bg-green-500" : "bg-gray-200"}`}
+        ></div>
+      </div>
+      <p className="mt-2 text-xs text-gray-500">
+        Strong passwords have at least 8 characters, uppercase, numbers, and symbols
+      </p>
+    </div>
+  )
+
+  // Card header
+  const header = (
+    <div className="text-center p-3">
+      <h2 className="text-2xl font-bold">Create an Account</h2>
+      <p className="mt-1 text-gray-500">Fill in your details to get started</p>
+    </div>
+  )
+
+  // Card footer
+  const footer = (
+    <div className="text-center p-3">
+      <p className="text-sm text-gray-500">
+        Already have an account?{" "}
+        <a className="text-blue-600 font-medium cursor-pointer" onClick={() => setInLogin(true)}>
+          Login here
+        </a>
+      </p>
+    </div>
+  )
+
   return (
-    <div className={`flex items-center justify-center min-h-screen px-4 py-8 ${isDarkmode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-      <div className={`w-full max-w-md rounded-xl shadow-lg overflow-hidden ${isDarkmode ? 'bg-gray-800' : 'bg-white'}`}>
-        <div className={`p-6 border-b ${isDarkmode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <h2 className={`text-2xl font-bold text-center ${isDarkmode ? 'text-white' : 'text-gray-900'}`}>Create an Account</h2>
-          <p className={`text-center mt-1 ${isDarkmode ? 'text-gray-400' : 'text-gray-500'}`}>Fill in your details to get started</p>
-        </div>
+    <div className={`flex items-center justify-center min-h-screen p-4 ${isDarkmode ? "bg-gray-900" : "bg-gray-100"}`}>
+      <Toast ref={toast} />
 
-        <div className="p-6">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label
-                  htmlFor="firstName"
-                  className={`block text-sm font-medium ${errors.firstName ? "text-red-600" : isDarkmode ? "text-gray-300" : "text-gray-700"}`}
-                >
-                  First Name
-                </label>
-                <input
-                  id="firstName"
-                  placeholder="John"
-                  aria-invalid={errors.firstName ? "true" : "false"}
-                  className={`w-full px-3 py-2 border ${errors.firstName ? "border-red-500 focus:ring-red-500" : isDarkmode ? "border-gray-600 focus:ring-blue-500 bg-gray-700 text-white" : "border-gray-300 focus:ring-blue-500 bg-white text-gray-900"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
-                  {...register("firstName", {
-                    required: "First name is required",
-                  })}
+      <Card className="w-full max-w-md shadow-lg" header={header} footer={footer}>
+        <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <span className="p-float-label">
+                <Controller
+                  name="firstName"
+                  control={control}
+                  rules={{ required: "First name is required" }}
+                  render={({ field, fieldState }) => (
+                    <InputText id={field.name} {...field} className={classNames({ "p-invalid": fieldState.error })} />
+                  )}
                 />
-                {errors.firstName && (
-                  <p className="text-red-600 text-xs mt-1" role="alert">
-                    {errors.firstName.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="lastName"
-                  className={`block text-sm font-medium ${errors.lastName ? "text-red-600" : isDarkmode ? "text-gray-300" : "text-gray-700"}`}
-                >
-                  Last Name
-                </label>
-                <input
-                  id="lastName"
-                  placeholder="Doe"
-                  aria-invalid={errors.lastName ? "true" : "false"}
-                  className={`w-full px-3 py-2 border ${errors.lastName ? "border-red-500 focus:ring-red-500" : isDarkmode ? "border-gray-600 focus:ring-blue-500 bg-gray-700 text-white" : "border-gray-300 focus:ring-blue-500 bg-white text-gray-900"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
-                  {...register("lastName", {
-                    required: "Last name is required",
-                  })}
-                />
-                {errors.lastName && (
-                  <p className="text-red-600 text-xs mt-1" role="alert">
-                    {errors.lastName.message}
-                  </p>
-                )}
-              </div>
+                <label htmlFor="firstName">First Name</label>
+              </span>
+              {getFormErrorMessage("firstName")}
             </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className={`block text-sm font-medium ${errors.email ? "text-red-600" : isDarkmode ? "text-gray-300" : "text-gray-700"}`}
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="your.email@example.com"
-                aria-invalid={errors.email ? "true" : "false"}
-                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500 focus:ring-red-500" : isDarkmode ? "border-gray-600 focus:ring-blue-500 bg-gray-700 text-white" : "border-gray-300 focus:ring-blue-500 bg-white text-gray-900"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
-                {...register("email", {
+            <div>
+              <span className="p-float-label">
+                <Controller
+                  name="lastName"
+                  control={control}
+                  rules={{ required: "Last name is required" }}
+                  render={({ field, fieldState }) => (
+                    <InputText id={field.name} {...field} className={classNames({ "p-invalid": fieldState.error })} />
+                  )}
+                />
+                <label htmlFor="lastName">Last Name</label>
+              </span>
+              {getFormErrorMessage("lastName")}
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <span className="p-float-label">
+              <Controller
+                name="email"
+                control={control}
+                rules={{
                   required: "Email is required",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: "Invalid email address",
                   },
-                })}
+                }}
+                render={({ field, fieldState }) => (
+                  <InputText id={field.name} {...field} className={classNames({ "p-invalid": fieldState.error })} />
+                )}
               />
-              {errors.email && (
-                <p className="text-red-600 text-xs mt-1" role="alert">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+              <label htmlFor="email">Email</label>
+            </span>
+            {getFormErrorMessage("email")}
+          </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className={`block text-sm font-medium ${errors.password ? "text-red-600" : isDarkmode ? "text-gray-300" : "text-gray-700"}`}
+          <div className="mb-4">
+            <span className="p-float-label relative">
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.name}
+                    {...field}
+                    type={showPassword ? "text" : "password"}
+                    className={classNames({ "p-invalid": fieldState.error })}
+                  />
+                )}
+              />
+              <label htmlFor="password">Password</label>
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
               >
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  aria-invalid={errors.password ? "true" : "false"}
-                  className={`w-full px-3 py-2 border ${errors.password ? "border-red-500 focus:ring-red-500" : isDarkmode ? "border-gray-600 focus:ring-blue-500 bg-gray-700 text-white" : "border-gray-300 focus:ring-blue-500 bg-white text-gray-900"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be at least 8 characters",
-                    },
-                  })}
-                />
-                <button
-                  type="button"
-                  className={`absolute right-0 top-0 h-full px-3 py-2 ${isDarkmode ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} focus:outline-none`}
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <Eye size={20} className="cursor-pointer" /> : <EyeClosed size={20} className="cursor-pointer" />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-600 text-xs mt-1" role="alert">
-                  {errors.password.message}
-                </p>
-              )}
-              {password && !errors.password && (
-                <div className="space-y-1">
-                  <div className="flex gap-1 mt-1">
-                    <div
-                      className={`h-1 flex-1 rounded-full ${password.length >= 8 ? "bg-green-500" : isDarkmode ? "bg-gray-600" : "bg-gray-200"}`}
-                    ></div>
-                    <div
-                      className={`h-1 flex-1 rounded-full ${/[A-Z]/.test(password) ? "bg-green-500" : isDarkmode ? "bg-gray-600" : "bg-gray-200"}`}
-                    ></div>
-                    <div
-                      className={`h-1 flex-1 rounded-full ${/[0-9]/.test(password) ? "bg-green-500" : isDarkmode ? "bg-gray-600" : "bg-gray-200"}`}
-                    ></div>
-                    <div
-                      className={`h-1 flex-1 rounded-full ${/[^A-Za-z0-9]/.test(password) ? "bg-green-500" : isDarkmode ? "bg-gray-600" : "bg-gray-200"}`}
-                    ></div>
-                  </div>
-                  <p className={`text-xs ${isDarkmode ? "text-gray-400" : "text-gray-500"}`}>
-                    Strong passwords have at least 8 characters, uppercase, numbers, and symbols
-                  </p>
-                </div>
-              )}
-            </div>
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" aria-hidden="true" />
+                ) : (
+                  <Eye className="h-5 w-5" aria-hidden="true" />
+                )}
+              </button>
+            </span>
+            {getFormErrorMessage("password")}
+            {password && <PasswordStrengthIndicator password={password} />}
+          </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="confirmPassword"
-                className={`block text-sm font-medium ${errors.confirmPassword ? "text-red-600" : isDarkmode ? "text-gray-300" : "text-gray-700"}`}
+          <div className="mb-4">
+            <span className="p-float-label relative">
+              <Controller
+                name="confirmPassword"
+                control={control}
+                rules={{
+                  required: "Please confirm your password",
+                  validate: (value) => value === password || "Passwords do not match",
+                }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.name}
+                    {...field}
+                    type={showConfirmPassword ? "text" : "password"}
+                    className={classNames({ "p-invalid": fieldState.error })}
+                  />
+                )}
+              />
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <button
+                type="button"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                tabIndex={-1}
               >
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  aria-invalid={errors.confirmPassword ? "true" : "false"}
-                  className={`w-full px-3 py-2 border ${errors.confirmPassword ? "border-red-500 focus:ring-red-500" : isDarkmode ? "border-gray-600 focus:ring-blue-500 bg-gray-700 text-white" : "border-gray-300 focus:ring-blue-500 bg-white text-gray-900"} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors`}
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: (value) => value === password || "Passwords do not match",
-                  })}
-                />
-                <button
-                  type="button"
-                  className={`absolute right-0 top-0 h-full px-3 py-2 ${isDarkmode ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} focus:outline-none`}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                >
-                
-                {showConfirmPassword ? <Eye size={20} className="cursor-pointer" /> : <EyeClosed size={20} className="cursor-pointer" />}
+                {showConfirmPassword ? (
+                  <EyeOff className="h-5 w-5" aria-hidden="true" />
+                ) : (
+                  <Eye className="h-5 w-5" aria-hidden="true" />
+                )}
+              </button>
+            </span>
+            {getFormErrorMessage("confirmPassword")}
+          </div>
 
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-red-600 text-xs mt-1" role="alert">
-                  {errors.confirmPassword.message}
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-md shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Creating account...
-                </div>
-              ) : (
-                "Create Account"
-              )}
-            </button>
-          </form>
-        </div>
-
-        <div className={`p-6 border-t ${isDarkmode ? 'border-gray-700' : 'border-gray-200'} text-center`}>
-          <p className={`text-sm ${isDarkmode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Already have an account?{" "}
-            <a className="text-blue-600 font-medium cursor-pointer" onClick={() => setInLogin(true)}>
-              Login here
-            </a>
-          </p>
-        </div>
-      </div>
+          <Button
+            type="submit"
+            label={isSubmitting ? "Creating account..." : "Create Account"}
+            icon={isSubmitting ? "pi pi-spin pi-spinner" : "pi pi-user-plus"}
+            className="w-full"
+            loading={isSubmitting}
+          />
+        </form>
+      </Card>
     </div>
   )
 }
 
 export default Register
+
