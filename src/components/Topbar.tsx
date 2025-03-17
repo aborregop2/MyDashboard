@@ -9,9 +9,9 @@ import { useNavigate } from "react-router"
 export default function Topbar() {
   const { isAuth, setIsAuth } = useAuthStore()
   const { isDarkmode, setIsDarkmode } = useDarkmodeStore()
+  const {showSidebar, setShowSidebar} = useShowSidebar()
 
   const [showMenu, setShowMenu] = useState(false)
-  const {showSidebar, setShowSidebar} = useShowSidebar()
 
   const navigate = useNavigate()
 

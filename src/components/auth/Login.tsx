@@ -139,6 +139,12 @@ const LoginForm: React.FC = () => {
                 </label>
               </div>
               <div className="relative">
+                {/*
+                TODO: LOGIN and REGISTER to Prime
+                TODO: Navbar darker
+                TODO: Hamburguesa logo topbar to show sidebar
+                TODO: Roles admin y user + tabla de propiedades
+                */}
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}

@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from 'react-router';
-
 import { useAuthStore } from '../store/index';
 
 const ProtectedRoute = () => {
