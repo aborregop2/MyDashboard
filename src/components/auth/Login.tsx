@@ -10,20 +10,20 @@ import { classNames } from "primereact/utils"
 import { Eye, EyeOff } from "lucide-react"
 
 type LoginFormData = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
 
 const LoginForm = () => {
   const { setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const toast = useRef<Toast>(null);
 
-  const navigate = useNavigate()
-  const toast = useRef<Toast>(null)
+  const navigate = useNavigate();
 
   const {
     control,
@@ -36,70 +36,76 @@ const LoginForm = () => {
       rememberMe: false,
     },
     mode: "onBlur",
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const responseGET = await fetch("http://localhost:3000/users")
-      if (!responseGET.ok) throw new Error("Failed to fetch users")
+      const responseGET = await fetch("http://localhost:3000/users");
+      if (!responseGET.ok) throw new Error("Failed to fetch users");
 
-      const dataGET = await responseGET.json()
+      const dataGET = await responseGET.json();
       const user = dataGET.find(
-        (user: { email: string; password: string }) => user.email === data.email && user.password === data.password,
-      )
+        (user: { email: string; password: string }) =>
+          user.email === data.email && user.password === data.password
+      );
 
       if (!user) {
-        setIsSubmitting(false)
+        setIsSubmitting(false);
         toast.current?.show({
           severity: "error",
           summary: "Error",
           detail: "Invalid email or password",
           life: 3000,
-        })
-        return
+        });
+        return;
       }
 
-      setIsSubmitting(false)
+      setIsSubmitting(false);
       setUser({
         email: user.email,
         role: user.role,
-      })
+      });
 
       toast.current?.show({
         severity: "success",
         summary: "Success",
         detail: "Welcome! :-)",
         life: 2000,
-      })
+      });
 
-      navigate("/dashboard")
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Login failed:", error)
-      setIsSubmitting(false)
+      console.error("Login failed:", error);
+      setIsSubmitting(false);
       toast.current?.show({
         severity: "error",
         summary: "Error",
         detail: "Login failed. Please try again.",
         life: 3000,
-      })
+      });
     }
-  }
+  };
 
   const getFormErrorMessage = (name: keyof LoginFormData) => {
-    return errors[name] ? <small className="p-error text-red-600 text-xs mt-1">{errors[name]?.message}</small> : null
-  }
+    return errors[name] ? (
+      <small className="p-error text-red-600 text-xs mt-1">
+        {errors[name]?.message}
+      </small>
+    ) : null;
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div
       className={`flex items-center justify-center min-h-screen px-4 py-8`}
     >
       <Toast ref={toast} position="top-right" />
+
       <div
         className={`w-full max-w-md rounded-xl shadow-lg overflow-hidden`}
       >
@@ -115,10 +121,7 @@ const LoginForm = () => {
         <div className="p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className={`block text-sm font-medium`}
-              >
+              <label htmlFor="email" className="block text-sm font-medium">
                 Email
               </label>
               <Controller
@@ -133,6 +136,7 @@ const LoginForm = () => {
                 }}
                 render={({ field, fieldState }) => (
                   <InputText
+                    type="email"
                     id={field.name}
                     value={field.value}
                     onChange={field.onChange}
@@ -148,10 +152,7 @@ const LoginForm = () => {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className={`block text-sm font-medium `}
-                >
+                <label htmlFor="password" className="block text-sm font-medium">
                   Password
                 </label>
                 <a href="" className="text-sm text-blue-500 hover:text-blue-400">
@@ -178,7 +179,7 @@ const LoginForm = () => {
                     <button
                       type="button"
                       onClick={togglePasswordVisibility}
-                      className={`absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5`}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                     >
                       {showPassword ? (
                         <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -234,9 +235,8 @@ const LoginForm = () => {
           </p>
         </div>
       </div>
-    </div>
-  )
-}
+    </>
+  );
+};
 
-export default LoginForm
-
+export default LoginForm;
