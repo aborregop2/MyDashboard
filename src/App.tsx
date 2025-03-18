@@ -4,10 +4,15 @@ import Dashboard from "./pages/Dashboard";
 import UsersTable from "./pages/UsersTable";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
+import { useAuthStore } from "./store";
 
 //TODO: Put toasts
 
 function App() {
+
+  const {user} = useAuthStore();
+  console.log(user)
+  
   return (
     <>
     <BrowserRouter>

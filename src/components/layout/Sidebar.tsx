@@ -42,7 +42,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
             Dashboard
           </a>
           {user?.role === 'admin' ? 
-          <a href="/dashboard" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          <a className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
           onClick={() => navigate('/users_panel')}
           >
             Users Panel
