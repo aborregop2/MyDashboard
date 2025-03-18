@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
@@ -26,7 +24,6 @@ export default function UsersTable() {
   const [users, setUsers] = useState<User[]>([])
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const [editedUser, setEditedUser] = useState<User | null>(null)
-  const { user } = useAuthStore()
   const toast = useRef<Toast>(null)
 
   const columns: ColumnMeta[] = [

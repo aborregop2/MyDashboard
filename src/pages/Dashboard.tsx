@@ -1,17 +1,9 @@
-"use client";
-
 import { Chart } from "primereact/chart";
 import { useEffect, useMemo, useState } from "react";
 import { useDarkmodeStore } from "../store";
 
 export default function Dashboard() {
   const { isDarkmode } = useDarkmodeStore();
-
-  /*useEffect(() => {
-    if (!user || !user.email) {
-      navigate("/auth");
-    }
-  }, [user, navigate]);*/
 
   const [barData, setBarData] = useState({});
   const [barOptions, setBarOptions] = useState({});

@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { Toast } from "primereact/toast"
