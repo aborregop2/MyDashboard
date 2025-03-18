@@ -1,7 +1,6 @@
-import type React from "react"
 import { useState, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
-import { useAuthStore, useInLogin, useDarkmodeStore } from "../../store/index"
+import { useAuthStore, useInLogin } from "../../store/index"
 import { useNavigate } from "react-router"
 import { Toast } from "primereact/toast"
 import { InputText } from "primereact/inputtext"
@@ -16,10 +15,9 @@ type LoginFormData = {
   rememberMe: boolean
 }
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const { setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
-  const { isDarkmode } = useDarkmodeStore()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -99,13 +97,13 @@ const LoginForm: React.FC = () => {
 
   return (
     <div
-      className={`flex items-center justify-center min-h-screen px-4 py-8 ${isDarkmode ? "bg-gray-900" : "bg-gray-100"}`}
+      className={`flex items-center justify-center min-h-screen px-4 py-8`}
     >
       <Toast ref={toast} position="top-right" />
       <div
-        className={`w-full max-w-md rounded-xl shadow-lg overflow-hidden bg-white`}
+        className={`w-full max-w-md rounded-xl shadow-lg overflow-hidden`}
       >
-        <div className={`p-6 border-b`}>
+        <div className={`p-6 border-b border-gray-200`}>
           <h2 className={`text-2xl font-bold text-center`}>
             Welcome Back
           </h2>
@@ -140,10 +138,7 @@ const LoginForm: React.FC = () => {
                     onChange={field.onChange}
                     onBlur={field.onBlur}
                     placeholder="your.email@example.com"
-                    className={classNames(
-                      "w-full",
-                      { "p-invalid": fieldState.error }
-                    )}
+                    className={classNames("w-full", { "p-invalid": fieldState.error })}
                     aria-invalid={errors.email ? "true" : "false"}
                   />
                 )}
@@ -159,6 +154,9 @@ const LoginForm: React.FC = () => {
                 >
                   Password
                 </label>
+                <a href="" className="text-sm text-blue-500 hover:text-blue-400">
+                  Forgot password?
+                </a>
               </div>
               <Controller
                 name="password"
@@ -173,13 +171,10 @@ const LoginForm: React.FC = () => {
                       onBlur={field.onBlur}
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
-                      className={classNames(
-                        "w-full",
-                        { "p-invalid": fieldState.error }
-                      )}
+                      className={classNames("w-full", { "p-invalid": fieldState.error })}
                       aria-invalid={errors.password ? "true" : "false"}
                     />
-                    
+
                     <button
                       type="button"
                       onClick={togglePasswordVisibility}
@@ -191,7 +186,6 @@ const LoginForm: React.FC = () => {
                         <Eye className="h-5 w-5" aria-hidden="true" />
                       )}
                     </button>
-
                   </div>
                 )}
               />
@@ -210,7 +204,7 @@ const LoginForm: React.FC = () => {
                       onChange={(e) => field.onChange(e.checked)}
                       className="mr-2"
                     />
-                    <label htmlFor={field.name} className={`text-sm ${isDarkmode ? "text-gray-200" : "text-gray-700"}`}>
+                    <label htmlFor={field.name} className={`text-sm`}>
                       Remember me
                     </label>
                   </div>
@@ -228,8 +222,8 @@ const LoginForm: React.FC = () => {
           </form>
         </div>
 
-        <div className={`p-6 border-t ${isDarkmode ? "border-gray-700" : "border-gray-200"} text-center`}>
-          <p className={`text-sm ${isDarkmode ? "text-gray-300" : "text-gray-600"}`}>
+        <div className={`p-6 border-t text-center border-gray-200`}>
+          <p className={`text-sm `}>
             Don't have an account?{" "}
             <a
               className="text-blue-500 font-medium hover:cursor-pointer hover:text-blue-400"

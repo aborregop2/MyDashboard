@@ -6,7 +6,6 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
 import { useAuthStore } from "./store";
 
-//TODO: Put toasts
 
 function App() {
 

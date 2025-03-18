@@ -28,7 +28,6 @@ export default function Topbar() {
 
   const topbarBgColor = !isDarkmode ? { backgroundColor: '#a59794' } : {};
 
-  //console.log(user)
   const start = (
     <div className="flex items-center gap-3">
       {user && (
@@ -65,11 +64,14 @@ export default function Topbar() {
       {showMenu && (
         <div 
           className={`absolute right-0 mt-2 w-48 rounded-md shadow-xl border border-gray-200 dark:border-gray-700 z-50
-            transition-all duration-200 origin-top-right animate-slide-down`}
+            transition-all duration-200 origin-top-right animate-slide-down
+            ${!isDarkmode ? 'bg-white' : 'bg-gray-800'}`}
         >
           <div className="py-1.5">
             <a
-              className="flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer"
+              className={`flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer ${
+                isDarkmode ? 'text-white' : 'text-gray-900'
+              }`}
               onClick={() => setIsDarkmode(!isDarkmode)}
             >
               <i className={`pi ${isDarkmode ? "pi-sun" : "pi-moon"} mr-3`}></i>
@@ -77,7 +79,9 @@ export default function Topbar() {
             </a>
             <hr className="my-1 border-gray-100 dark:border-gray-700" />
             <a
-              className="flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer"
+              className={`flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer ${
+                isDarkmode ? 'text-white' : 'text-gray-900'
+              }`}
               onClick={() => {
                 setUser(null)
                 navigate("/")

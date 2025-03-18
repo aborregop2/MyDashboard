@@ -11,3 +11,7 @@ export default function Authentication() {
     </>
   )
 }
+
+
+//TODO: Subcomponer Authentication Login y Register
+//TODO: Agregar editar a la tabla de usuarios
