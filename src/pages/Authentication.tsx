@@ -7,12 +7,10 @@ export default function Authentication() {
   const { isDarkmode } = useDarkmodeStore();
 
   return (
-    <div
-      className={`flex items-center justify-center min-h-screen px-4 py-8 ${
-        isDarkmode ? "bg-gray-900" : "bg-gray-100"
-      }`}
-    >
-      {inLogin ? <Login /> : <Register />}
+    <div className="flex items-center justify-center min-h-screen px-4 py-8">
+      <div className="w-full max-w-md rounded-xl shadow-lg overflow-hidden">
+        {inLogin ? <Login /> : <Register />}
+      </div>
     </div>
   );
 }

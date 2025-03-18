@@ -10,58 +10,31 @@
       "role": "admin"
     },
     {
-      "id": "91a2",
-      "firstName": "asda",
-      "lastName": "asdasd",
-      "email": "1@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
-    },
-    {
-      "id": "e973",
-      "firstName": "John",
-      "lastName": "asdasda",
+      "id": "59df",
+      "firstName": "María",
+      "lastName": "Gonzálezzz",
       "email": "maria@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
+      "password": "password123",
+      "confirmPassword": "password123",
+      "role": "admin"
     },
     {
-      "id": "e72f",
-      "firstName": "John",
-      "lastName": "asdasd",
-      "email": "4@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
+      "id": "60ef",
+      "firstName": "Juan",
+      "lastName": "Martínez",
+      "email": "juan@gmail.com",
+      "password": "juanpass",
+      "confirmPassword": "juanpass",
+      "role": "admin"
     },
     {
-      "id": "f3e1",
-      "firstName": "asdasd",
-      "lastName": "asdasd",
-      "email": "5@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
-    },
-    {
-      "id": "b5d3",
-      "firstName": "12345678",
-      "lastName": "12345678",
-      "email": "6@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
-    },
-    {
-      "id": "9aa8",
-      "firstName": "gggg",
-      "lastName": "gggg",
-      "email": "f@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "user"
+      "id": "61ff",
+      "firstName": "Lucía",
+      "lastName": "Fernández",
+      "email": "lucia@gmail.com",
+      "password": "lucia1234",
+      "confirmPassword": "lucia1234",
+      "role": "admin"
     }
   ]
 }
