@@ -8,7 +8,7 @@ type InLoginStore = {
 
 
 const useInLogin = create<InLoginStore>((set) => ({
-    inLogin: false,
+    inLogin: true,
     setInLogin: (inLogin) => set({ inLogin }),
 }));
 

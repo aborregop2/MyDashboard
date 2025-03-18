@@ -20,7 +20,7 @@ type FormData = {
 }
 
 const Register = () => {
-  const { setUser } = useAuthStore()
+  const { user, setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
   const { isDarkmode } = useDarkmodeStore()
   const toast = useRef<Toast>(null)
@@ -69,10 +69,9 @@ const Register = () => {
         throw new Error("Failed to create user")
       }
 
-      // Get the created user directly from the response
-      const newUser = await response.json()
-      console.log(newUser)
       console.log(response)
+      
+
       // Set user state directly
       setUser({
         email: data.email,
@@ -87,8 +86,12 @@ const Register = () => {
         life: 2000,
       })
 
+      console.log("User created successfully")
+      
+      //console.log(user)
       // Navigate after state is set
       navigate("/dashboard")
+
     } catch (error) {
       setIsSubmitting(false)
       toast.current?.show({

@@ -3,7 +3,7 @@ import { Menubar } from "primereact/menubar"
 import { Menu } from 'lucide-react';
 import { Avatar } from "primereact/avatar"
 import { useNavigate } from "react-router"
-import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../store";
+import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../../store/index";
 
 export default function Topbar() {
   const { user, setUser } = useAuthStore()
@@ -28,6 +28,7 @@ export default function Topbar() {
 
   const topbarBgColor = !isDarkmode ? { backgroundColor: '#a59794' } : {};
 
+  //console.log(user)
   const start = (
     <div className="flex items-center gap-3">
       {user && (
@@ -79,7 +80,7 @@ export default function Topbar() {
               className="flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors cursor-pointer"
               onClick={() => {
                 setUser(null)
-                navigate("/auth")
+                navigate("/")
               }}
             >
               <i className="pi pi-sign-out mr-3"></i>

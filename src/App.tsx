@@ -12,7 +12,7 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<Authentication />} />
+        <Route path="/" element={<Authentication />} />
           
         <Route element={<ProtectedRoute/>} >
           <Route element={<Layout/>} >

@@ -1,5 +1,5 @@
 import type React from "react"
-import { useShowSidebar, useDarkmodeStore, useAuthStore } from "../store/index"
+import { useShowSidebar, useDarkmodeStore, useAuthStore } from "../../store/index"
 import { Sidebar } from "primereact/sidebar"
 import { useNavigate } from "react-router" 
 
@@ -49,7 +49,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
           </a> 
           : <></>
           }
-          <a href="/auth" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+          <a href="/" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
           onClick={() => {setUser(null)}}
           >
             Logout
