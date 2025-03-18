@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Chart } from "primereact/chart"
-import { useEffect, useState } from "react"
-import { useDarkmodeStore } from "../store"
+import { Chart } from "primereact/chart";
+import { useEffect, useMemo, useState } from "react";
+import { useDarkmodeStore } from "../store";
 
 export default function Dashboard() {
   const { isDarkmode } = useDarkmodeStore();
@@ -13,12 +13,12 @@ export default function Dashboard() {
     }
   }, [user, navigate]);*/
 
-  const [barData, setBarData] = useState({})
-  const [barOptions, setBarOptions] = useState({})
-  const [pieData, setPieData] = useState({})
-  const [pieOptions, setPieOptions] = useState({})
-  const [comboData, setComboData] = useState({})
-  const [comboOptions, setComboOptions] = useState({})
+  const [barData, setBarData] = useState({});
+  const [barOptions, setBarOptions] = useState({});
+  const [pieData, setPieData] = useState({});
+  const [pieOptions, setPieOptions] = useState({});
+  const [comboData, setComboData] = useState({});
+  const [comboOptions, setComboOptions] = useState({});
 
   // Bar chart effect
   useEffect(() => {
@@ -34,48 +34,57 @@ export default function Dashboard() {
             "rgba(54, 162, 235, 0.2)",
             "rgba(153, 102, 255, 0.2)",
           ],
-          borderColor: ["rgb(255, 159, 64)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)"],
+          borderColor: [
+            "rgb(255, 159, 64)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+          ],
           borderWidth: 1,
         },
       ],
-    }
+    };
 
     const barChartOptions = {
       scales: {
-        y: { 
+        y: {
           beginAtZero: true,
           grid: {
-            color: isDarkmode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+            color: isDarkmode
+              ? "rgba(255, 255, 255, 0.1)"
+              : "rgba(0, 0, 0, 0.1)",
           },
           ticks: {
-            color: isDarkmode ? '#e2e8f0' : '#64748b'
-          }
+            color: isDarkmode ? "#e2e8f0" : "#64748b",
+          },
         },
         x: {
           grid: {
-            color: isDarkmode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+            color: isDarkmode
+              ? "rgba(255, 255, 255, 0.1)"
+              : "rgba(0, 0, 0, 0.1)",
           },
           ticks: {
-            color: isDarkmode ? '#e2e8f0' : '#64748b'
-          }
-        }
+            color: isDarkmode ? "#e2e8f0" : "#64748b",
+          },
+        },
       },
       plugins: {
         legend: {
           labels: {
-            color: isDarkmode ? '#e2e8f0' : '#64748b'
-          }
-        }
-      }
-    }
+            color: isDarkmode ? "#e2e8f0" : "#64748b",
+          },
+        },
+      },
+    };
 
-    setBarData(barChartData)
-    setBarOptions(barChartOptions)
-  }, [isDarkmode])
+    setBarData(barChartData);
+    setBarOptions(barChartOptions);
+  }, []);
 
   // Pie chart effect
   useEffect(() => {
-    const documentStyle = getComputedStyle(document.documentElement)
+    const documentStyle = getComputedStyle(document.documentElement);
     const pieChartData = {
       labels: ["A", "B", "C"],
       datasets: [
@@ -93,29 +102,36 @@ export default function Dashboard() {
           ],
         },
       ],
-    }
+    };
 
     const pieChartOptions = {
       plugins: {
         legend: {
-          labels: { 
+          labels: {
             usePointStyle: true,
-            color: isDarkmode ? '#e2e8f0' : '#64748b'
+            color: isDarkmode ? "#e2e8f0" : "#64748b",
           },
         },
       },
-    }
+    };
 
-    setPieData(pieChartData)
-    setPieOptions(pieChartOptions)
-  }, [isDarkmode])
+    setPieData(pieChartData);
+    setPieOptions(pieChartOptions);
+  }, []);
 
   // Combo chart effect
   useEffect(() => {
-    const documentStyle = getComputedStyle(document.documentElement)
-    const textColor = isDarkmode ? '#e2e8f0' : documentStyle.getPropertyValue("--text-color") || '#64748b'
-    const textColorSecondary = isDarkmode ? '#cbd5e1' : documentStyle.getPropertyValue("--text-color-secondary") || '#94a3b8'
-    const surfaceBorder = isDarkmode ? 'rgba(255, 255, 255, 0.1)' : documentStyle.getPropertyValue("--surface-border") || 'rgba(0, 0, 0, 0.1)'
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = isDarkmode
+      ? "#e2e8f0"
+      : documentStyle.getPropertyValue("--text-color") || "#64748b";
+    const textColorSecondary = isDarkmode
+      ? "#cbd5e1"
+      : documentStyle.getPropertyValue("--text-color-secondary") || "#94a3b8";
+    const surfaceBorder = isDarkmode
+      ? "rgba(255, 255, 255, 0.1)"
+      : documentStyle.getPropertyValue("--surface-border") ||
+        "rgba(0, 0, 0, 0.1)";
 
     const comboChartData = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -144,17 +160,17 @@ export default function Dashboard() {
           data: [41, 52, 24, 74, 23, 21, 32],
         },
       ],
-    }
+    };
 
     const comboChartOptions = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
-      plugins: { 
-        legend: { 
-          labels: { 
-            color: textColor 
-          } 
-        } 
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
       },
       scales: {
         x: {
@@ -166,43 +182,76 @@ export default function Dashboard() {
           grid: { color: surfaceBorder },
         },
       },
-    }
+    };
 
-    setComboData(comboChartData)
-    setComboOptions(comboChartOptions)
-  }, [isDarkmode])
-  
-  
+    setComboData(comboChartData);
+    setComboOptions(comboChartOptions);
+  }, []);
+
+  const hasData: Boolean = useMemo(
+    () =>
+      Object.keys(barData).length > 0 &&
+      Object.keys(pieData).length > 0 &&
+      Object.keys(comboData).length > 0,
+    [barData, pieData, comboData]
+  );
+
   return (
-    <div className={`w-full min-h-screen ${isDarkmode ? 'bg-slate-900' : 'bg-gray-50'} p-6`}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-1 h-[60vh]">
-        <div className={`p-10 ${isDarkmode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-100'} rounded-xl border h-full`}>
-          <Chart 
-            type="bar" 
-            data={barData} 
-            options={barOptions} 
-            className="h-full w-full"
-          />
-        </div>
-        
-        <div className={`${isDarkmode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-100'} rounded-xl border h-full flex justify-center items-center`}>
-          <Chart
-            type="pie"
-            data={pieData}
-            options={pieOptions}
-            className="w-100"
-          />
-        </div>
-      </div>
+    <>
+      {hasData && (
+        <div
+          className={`w-full min-h-screen ${
+            isDarkmode ? "bg-slate-900" : "bg-gray-50"
+          } p-6`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-1 h-[60vh]">
+            <div
+              className={`p-10 ${
+                isDarkmode
+                  ? "bg-slate-800 border-slate-700"
+                  : "bg-white border-gray-100"
+              } rounded-xl border h-full`}
+            >
+              <Chart
+                type="bar"
+                data={barData}
+                options={barOptions}
+                className="h-full w-full"
+              />
+            </div>
 
-      <div className={`flex justify-center items-center mt-10 mb-11 ${isDarkmode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-100'} rounded-xl border p-10`}>
-        <Chart
-          type="bar"
-          data={comboData}
-          options={comboOptions}
-          className="w-250"
-        />
-      </div>
-    </div>
-  )
+            <div
+              className={`${
+                isDarkmode
+                  ? "bg-slate-800 border-slate-700"
+                  : "bg-white border-gray-100"
+              } rounded-xl border h-full flex justify-center items-center`}
+            >
+              <Chart
+                type="pie"
+                data={pieData}
+                options={pieOptions}
+                className="w-100"
+              />
+            </div>
+          </div>
+
+          <div
+            className={`flex justify-center items-center mt-10 mb-11 ${
+              isDarkmode
+                ? "bg-slate-800 border-slate-700"
+                : "bg-white border-gray-100"
+            } rounded-xl border p-10`}
+          >
+            <Chart
+              type="bar"
+              data={comboData}
+              options={comboOptions}
+              className="w-250"
+            />
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
