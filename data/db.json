@@ -15,16 +15,8 @@
       "lastName": "asd",
       "email": "asdasda@gmail.com",
       "password": "12345678",
-      "confirmPassword": "12345678"
-    },
-    {
-      "id": "49eb",
-      "firstName": "paco",
-      "lastName": "pal",
-      "email": "2002@gmail.com",
-      "password": "12345678",
       "confirmPassword": "12345678",
-      "role": "user"
+      "role": "admin"
     }
   ]
 }

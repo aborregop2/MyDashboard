@@ -3,7 +3,7 @@ import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
 import { InputText } from "primereact/inputtext"
 import { Dropdown } from "primereact/dropdown"
-import { Pencil, X, Check } from "lucide-react"
+import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
 import { fetchUsers, deleteUser, updateUser } from "../services/useUsersApi"
 
@@ -35,13 +35,12 @@ export default function UsersTable() {
 
   const roles = [
     { label: "Admin", value: "admin" },
-    { label: "User", value: "user" }
+    { label: "User", value: "user" },
   ]
 
   useEffect(() => {
     try {
       fetchUsers().then((users) => setUsers(users))
-
     } catch (error) {
       console.error("Error fetching users:", error)
       toast.current?.show({ severity: "error", summary: "Error", detail: "Failed to fetch users" })
@@ -60,9 +59,8 @@ export default function UsersTable() {
 
   const handleSaveEdit = async () => {
     if (!editedUser) return
-  
-    try {
 
+    try {
       const updatedUser = await updateUser(editedUser)
       setUsers(users.map((u) => (u.id === updatedUser.id ? updatedUser : u)))
 
@@ -74,7 +72,6 @@ export default function UsersTable() {
 
       setEditingUser(null)
       setEditedUser(null)
-
     } catch (error) {
       toast.current?.show({
         severity: "error",
@@ -94,7 +91,6 @@ export default function UsersTable() {
         summary: "Success",
         detail: "User deleted successfully",
       })
-      
     } catch (error) {
       toast.current?.show({
         severity: "error",
@@ -117,40 +113,30 @@ export default function UsersTable() {
     if (editingUser && editingUser.id === rowData.id) {
       return (
         <div className="flex gap-2">
-          <button
-            onClick={handleSaveEdit}
-            className="p-1 text-green-500 hover:text-green-700 rounded-full hover:bg-green-100"
-            title="Save"
-          >
-            <Check size={18} />
-          </button>
-          <button
-            onClick={handleCancelEdit}
-            className="p-1 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100"
-            title="Cancel"
-          >
-            <X size={18} />
-          </button>
+          <Button icon="pi pi-check" onClick={handleSaveEdit} severity="success" rounded text aria-label="Save" />
+          <Button icon="pi pi-times" onClick={handleCancelEdit} severity="danger" rounded text aria-label="Cancel" />
         </div>
       )
     }
 
     return (
       <div className="flex gap-2">
-        <button
+        <Button
+          icon="pi pi-pencil"
           onClick={() => handleEdit(rowData)}
-          className="p-1 text-blue-500 hover:text-blue-700 rounded-full hover:bg-blue-100"
-          title="Edit"
-        >
-          <Pencil size={18} />
-        </button>
-        <button
+          severity="info"
+          rounded
+          text
+          aria-label="Edit"
+        />
+        <Button
+          icon="pi pi-trash"
           onClick={() => handleDelete(rowData)}
-          className="p-1 text-red-500 hover:text-red-700 rounded-full hover:bg-red-100"
-          title="Delete"
-        >
-          <X size={18} />
-        </button>
+          severity="danger"
+          rounded
+          text
+          aria-label="Delete"
+        />
       </div>
     )
   }

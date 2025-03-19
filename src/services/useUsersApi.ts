@@ -4,7 +4,7 @@
 
 export const createUser = async (user: any) => {
     try {
-        const response = await fetch("http://localhost:3000/users", {
+        const response = await fetch(`${import.meta.env.VITE_BDD_URL}/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user),
@@ -22,7 +22,8 @@ export const createUser = async (user: any) => {
 
 export const fetchUsers = async () => {
     try {
-        const response = await fetch("http://localhost:3000/users");
+        const response = await fetch(`${import.meta.env.VITE_BDD_URL}/users`);
+        console.log(import.meta.env.BDD_URL);
         if (!response.ok) {
             throw new Error("Failed to fetch users");
         }
@@ -35,7 +36,7 @@ export const fetchUsers = async () => {
 };
 
 export const updateUser = (user: any) => {
-    return fetch(`http://localhost:3000/users/${user.id}`, {
+    return fetch(`${import.meta.env.VITE_BDD_URL}/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
@@ -45,7 +46,7 @@ export const updateUser = (user: any) => {
 }
 
 export const deleteUser = (userId: string) => {
-    return fetch(`http://localhost:3000/users/${userId}`, {
+    return fetch(`${import.meta.env.VITE_BDD_URL}/users/${userId}`, {
         method: "DELETE",
     })
     .catch(error => console.error("Error deleting user:", error));
