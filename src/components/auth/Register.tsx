@@ -7,6 +7,7 @@ import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin } from "../../store"
 import { useNavigate } from "react-router"
 import { Eye, EyeOff } from "lucide-react"
+import { fetchUsers, createUser } from "../../services/useUsersApi"
 
 type FormData = {
   firstName: string
@@ -40,9 +41,9 @@ const Register = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
     try {
-      const responseGET = await fetch("http://localhost:3000/users")
-      const users = await responseGET.json()
+      const users = await fetchUsers();
       const userExists = users.find((user: any) => user.email === data.email)
+
       if (userExists) {
         toast.current?.show({
           severity: "error",
@@ -54,18 +55,7 @@ const Register = () => {
         return
       }
 
-      // Create the new user
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, role: "user" }),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to create user")
-      }
-
-      console.log(response)
+      await createUser({ ...data, role: "user" })
 
       // Set user state directly
       setUser({
@@ -83,7 +73,6 @@ const Register = () => {
 
       console.log("User created successfully")
 
-      //console.log(user)
       // Navigate after state is set
       navigate("/dashboard")
     } catch (error) {

@@ -8,6 +8,7 @@ import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin } from "../../store"
 import { useNavigate } from "react-router"
 import { Eye, EyeOff } from "lucide-react"
+import { fetchUsers } from "../../services/useUsersApi"
 
 type LoginFormData = {
   email: string
@@ -41,11 +42,9 @@ const Login = () => {
     setIsSubmitting(true)
 
     try {
-      const responseGET = await fetch("http://localhost:3000/users")
-      if (!responseGET.ok) throw new Error("Failed to fetch users")
-
-      const dataGET = await responseGET.json()
-      const user = dataGET.find(
+      
+      const users = await fetchUsers();
+      const user = users.find(
         (user: { email: string; password: string }) => user.email === data.email && user.password === data.password,
       )
 

@@ -4,8 +4,8 @@ import { Column } from "primereact/column"
 import { InputText } from "primereact/inputtext"
 import { Dropdown } from "primereact/dropdown"
 import { Pencil, X, Check } from "lucide-react"
-import { useAuthStore } from "../store"
 import { Toast } from "primereact/toast"
+import { fetchUsers, deleteUser, updateUser } from "../services/useUsersApi"
 
 interface User {
   id: string
@@ -39,18 +39,13 @@ export default function UsersTable() {
   ]
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/users")
-        const data = await response.json()
-        setUsers(data)
-      } catch (error) {
-        console.error("Error fetching users:", error)
-        toast.current?.show({ severity: "error", summary: "Error", detail: "Failed to fetch users" })
-      }
-    }
+    try {
+      fetchUsers().then((users) => setUsers(users))
 
-    fetchUsers()
+    } catch (error) {
+      console.error("Error fetching users:", error)
+      toast.current?.show({ severity: "error", summary: "Error", detail: "Failed to fetch users" })
+    }
   }, [])
 
   const handleEdit = (user: User) => {
@@ -65,39 +60,22 @@ export default function UsersTable() {
 
   const handleSaveEdit = async () => {
     if (!editedUser) return
-
+  
     try {
-      const response = await fetch(`http://localhost:3000/users/${editedUser.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedUser),
+
+      const updatedUser = await updateUser(editedUser)
+      setUsers(users.map((u) => (u.id === updatedUser.id ? updatedUser : u)))
+
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "User updated successfully",
       })
 
-      if (response.ok) {
-        const updatedUser = await response.json()
+      setEditingUser(null)
+      setEditedUser(null)
 
-        setUsers(users.map((u) => (u.id === updatedUser.id ? updatedUser : u)))
-
-        toast.current?.show({
-          severity: "success",
-          summary: "Success",
-          detail: "User updated successfully",
-        })
-
-        // Exit edit mode
-        setEditingUser(null)
-        setEditedUser(null)
-      } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Failed to update user",
-        })
-      }
     } catch (error) {
-      console.error("Error updating user:", error)
       toast.current?.show({
         severity: "error",
         summary: "Error",
@@ -108,26 +86,16 @@ export default function UsersTable() {
 
   const handleDelete = async (user: User) => {
     try {
-      const response = await fetch(`http://localhost:3000/users/${user.id}`, {
-        method: "DELETE",
-      })
+      await deleteUser(user.id)
+      setUsers(users.filter((u) => u.id !== user.id))
 
-      if (response.ok) {
-        setUsers(users.filter((u) => u.id !== user.id))
-        toast.current?.show({
-          severity: "success",
-          summary: "Success",
-          detail: "User deleted successfully",
-        })
-      } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Failed to delete user",
-        })
-      }
+      toast.current?.show({
+        severity: "success",
+        summary: "Success",
+        detail: "User deleted successfully",
+      })
+      
     } catch (error) {
-      console.error("Error deleting user:", error)
       toast.current?.show({
         severity: "error",
         summary: "Error",
