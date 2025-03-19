@@ -234,13 +234,14 @@ export default function UsersTable() {
   return (
     <div className="card mt-4 p-4 ml-4 mr-4">
       <Toast ref={toast} />
+
       <DataTable
         value={users}
         tableStyle={{ minWidth: "50rem" }}
         paginator
         rows={5}
         rowsPerPageOptions={[5, 10, 25]}
-        emptyMessage="No users found"
+        emptyMessage="No users found in this big big company"
       >
         {columns.map(renderColumn)}
         <Column body={actionBodyTemplate} header="Actions" style={{ width: "10rem" }} />

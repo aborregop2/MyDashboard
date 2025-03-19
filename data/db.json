@@ -11,7 +11,7 @@
     },
     {
       "id": "59df",
-      "firstName": "María",
+      "firstName": "Maríaaa",
       "lastName": "Gonzálezzz",
       "email": "maria@gmail.com",
       "password": "password123",
@@ -34,6 +34,24 @@
       "email": "lucia@gmail.como",
       "password": "lucia1234",
       "confirmPassword": "lucia1234",
+      "role": "admin"
+    },
+    {
+      "id": "11c7",
+      "firstName": "MAria",
+      "lastName": "maria",
+      "email": "asdasda@gmail.com",
+      "password": "12345678",
+      "confirmPassword": "12345678",
+      "role": "user"
+    },
+    {
+      "id": "0557",
+      "firstName": "Yo",
+      "lastName": "Yo",
+      "email": "yo@gmail.com",
+      "password": "12345678",
+      "confirmPassword": "12345678",
       "role": "user"
     }
   ]

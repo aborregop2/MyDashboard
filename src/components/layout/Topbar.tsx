@@ -26,6 +26,8 @@ export default function Topbar() {
 
   changeTheme(isDarkmode ? 'dark' : 'light');
 
+  const topbarBgColor = !isDarkmode ? { backgroundColor: '#12a14b' } : {};
+
   const start = (
     <div className="flex items-center gap-3">
       {user && (
@@ -100,6 +102,7 @@ export default function Topbar() {
     <Menubar
       start={start}
       end={end}
+      style={topbarBgColor}
       className="transition-all duration-300 h-16 shadow-sm"
     />
   )

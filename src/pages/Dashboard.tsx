@@ -1,17 +1,6 @@
-import { Chart } from "primereact/chart";
-import { useEffect, useMemo, useState } from "react";
-import { useDarkmodeStore } from "../store";
-import BarChart from "../components/dashboard/BarChart";
-import PieChart from "../components/dashboard/PieChart";
-import ComboChart from "../components/dashboard/ComboChart";
+import { BarChart, PieChart, ComboChart } from "../components/dashboard";
 
 export default function Dashboard() {
-  const { isDarkmode } = useDarkmodeStore();
-
-
-  
-  
-
   return (
     <>
       <div
