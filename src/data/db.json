@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": "58cf",
+      "firstName": "Adrián",
+      "lastName": "Borrego",
+      "email": "adri@gmail.com",
+      "password": "12345678",
+      "confirmPassword": "12345678",
+      "role": "admin"
+    },
+    {
+      "id": "59df",
+      "firstName": "María",
+      "lastName": "Gonzálezzz",
+      "email": "maria@gmail.com",
+      "password": "password123",
+      "confirmPassword": "password123",
+      "role": "admin"
+    },
+    {
+      "id": "60ef",
+      "firstName": "Juan",
+      "lastName": "Martínez",
+      "email": "juan@gmail.com",
+      "password": "juanpass",
+      "confirmPassword": "juanpass",
+      "role": "admin"
+    },
+    {
+      "id": "61ff",
+      "firstName": "Lucía",
+      "lastName": "Fernández",
+      "email": "lucia@gmail.com",
+      "password": "lucia1234",
+      "confirmPassword": "lucia1234",
+      "role": "admin"
+    }
+  ]
+}
