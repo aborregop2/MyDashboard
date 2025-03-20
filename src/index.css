@@ -1,4 +1,4 @@
-@layer tailwind-base, primereact;
+@layer myLayer, tailwind-base, primereact;
 
 /* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
 @layer primereact {
@@ -11,9 +11,7 @@
 }
 
 
-body {
-  font-family: "Nunito", sans-serif;
-}
+
 
 .p-menubar-button {
   display: none;

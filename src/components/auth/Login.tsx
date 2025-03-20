@@ -1,14 +1,15 @@
 import { useState, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { Toast } from "primereact/toast"
-import { InputText } from "primereact/inputtext"
-import { Button } from "primereact/button"
+import MyInput from "../ui/MyInput"
+import MyButton from "../ui/MyButton"
 import { Checkbox } from "primereact/checkbox"
 import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin } from "../../store"
 import { useNavigate } from "react-router"
 import { Eye, EyeOff } from "lucide-react"
 import { fetchUsers } from "../../services/useUsersApi"
+import { useShowSidebar } from "../../store"
 
 type LoginFormData = {
   email: string
@@ -19,6 +20,7 @@ type LoginFormData = {
 const Login = () => {
   const { setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
+  const { setShowSidebar } = useShowSidebar()
   const toast = useRef<Toast>(null)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -72,6 +74,9 @@ const Login = () => {
         life: 2000,
       })
 
+      setShowSidebar(false)
+      console.log("Login successful")
+      console.log("User:", user)
       navigate("/dashboard")
     } catch (error) {
       console.error("Login failed:", error)
@@ -115,7 +120,7 @@ const Login = () => {
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <InputText
+                  <MyInput
                     id={field.name}
                     {...field}
                     placeholder="your.email@example.com"
@@ -141,7 +146,7 @@ const Login = () => {
                   control={control}
                   rules={{ required: "Password is required" }}
                   render={({ field, fieldState }) => (
-                    <InputText
+                    <MyInput
                       id={field.name}
                       {...field}
                       type={showPassword ? "text" : "password"}
@@ -174,7 +179,7 @@ const Login = () => {
                     <Checkbox
                       inputId={field.name}
                       checked={field.value}
-                      onChange={(e) => field.onChange(e.checked)}
+                      onChange={(e : any) => field.onChange(e.checked)}
                       className="mr-2"
                     />
                     <label htmlFor={field.name} className="text-sm">
@@ -185,7 +190,7 @@ const Login = () => {
               />
             </div>
 
-            <Button
+            <MyButton
               type="submit"
               label={isSubmitting ? "Signing in..." : "Sign In"}
               className="w-full mt-6"

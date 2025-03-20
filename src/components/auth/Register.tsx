@@ -1,13 +1,15 @@
 import { useState, useRef } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { Toast } from "primereact/toast"
-import { InputText } from "primereact/inputtext"
-import { Button } from "primereact/button"
+import MyInput  from "../ui/MyInput"
+import MyButton from "../ui/MyButton"
 import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin } from "../../store"
 import { useNavigate } from "react-router"
 import { fetchUsers, createUser } from "../../services/useUsersApi"
 import { Eye, EyeOff } from "lucide-react"
+import { useShowSidebar } from "../../store"
+
 
 type FormData = {
   firstName: string
@@ -18,8 +20,9 @@ type FormData = {
 }
 
 const Register = () => {
-  const { user, setUser } = useAuthStore()
+  const { setUser } = useAuthStore()
   const { setInLogin } = useInLogin()
+  const { setShowSidebar } = useShowSidebar()
   const toast = useRef<Toast>(null)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -73,7 +76,8 @@ const Register = () => {
 
       console.log("User created successfully")
 
-      // Navigate after state is set
+      
+      setShowSidebar(false)
       navigate("/dashboard")
     } catch (error) {
       setIsSubmitting(false)
@@ -133,7 +137,7 @@ const Register = () => {
                 control={control}
                 rules={{ required: "First name is required" }}
                 render={({ field, fieldState }) => (
-                  <InputText
+                  <MyInput
                     id={field.name}
                     {...field}
                     placeholder="John"
@@ -153,7 +157,7 @@ const Register = () => {
                 control={control}
                 rules={{ required: "Last name is required" }}
                 render={({ field, fieldState }) => (
-                  <InputText
+                  <MyInput
                     id={field.name}
                     {...field}
                     placeholder="Doe"
@@ -180,7 +184,7 @@ const Register = () => {
                 },
               }}
               render={({ field, fieldState }) => (
-                <InputText
+                <MyInput
                   id={field.name}
                   {...field}
                   placeholder="your.email@example.com"
@@ -207,7 +211,7 @@ const Register = () => {
                   },
                 }}
                 render={({ field, fieldState }) => (
-                  <InputText
+                  <MyInput
                     id={field.name}
                     {...field}
                     type={showPassword ? "text" : "password"}
@@ -216,7 +220,7 @@ const Register = () => {
                   />
                 )}
               />
-              <Button
+              <MyButton
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="p-button-outlined p-button-secondary"
@@ -227,7 +231,7 @@ const Register = () => {
                 ) : (
                   <Eye className="h-5 w-5 text-gray-500" aria-hidden="true" />
                 )}
-              </Button>
+              </MyButton>
             </div>
             {getFormErrorMessage("password")}
             {password && <PasswordStrengthIndicator password={password} />}
@@ -246,7 +250,7 @@ const Register = () => {
                   validate: (value) => value === password || "Passwords do not match",
                 }}
                 render={({ field, fieldState }) => (
-                  <InputText
+                  <MyInput
                     id={field.name}
                     {...field}
                     type={showConfirmPassword ? "text" : "password"}
@@ -255,7 +259,7 @@ const Register = () => {
                   />
                 )}
               />
-              <Button
+              <MyButton
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="p-button-outlined p-button-secondary"
@@ -266,15 +270,15 @@ const Register = () => {
                 ) : (
                   <Eye className="h-5 w-5 text-gray-500" aria-hidden="true" />
                 )}
-              </Button>
+              </MyButton>
             </div>
             {getFormErrorMessage("confirmPassword")}
           </div>
 
-          <Button
+          <MyButton
             type="submit"
             label={isSubmitting ? "Creating account..." : "Create Account"}
-            icon={isSubmitting ? "pi pi-spin pi-spinner" : "pi pi-user-plus"}
+            icon={isSubmitting ? "pi pi-spin pi-spinner" : ""}
             className="w-full mt-6"
             disabled={isSubmitting}
           />

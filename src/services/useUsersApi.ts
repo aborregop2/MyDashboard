@@ -1,7 +1,3 @@
-//TODO: Nunito mejor practica
-//TODO: Responsive
-//TODO: Escalabilizar componentes
-
 export const createUser = async (user: any) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BDD_URL}/users`, {

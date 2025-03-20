@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { Menubar } from "primereact/menubar"
 import { Menu } from "lucide-react"
-import { Avatar } from "primereact/avatar"
-import { Button } from "primereact/button"
 import { useNavigate } from "react-router"
 import { useAuthStore, useDarkmodeStore, useShowSidebar } from "../../store/index"
+import MyMenubar from "../ui/MyMenubar"
+import MyAvatar from "../ui/MyAvatar"
+import MyButton from "../ui/MyButton"
+
 
 export default function Topbar() {
   const { user, setUser } = useAuthStore()
@@ -52,7 +53,7 @@ export default function Topbar() {
 
   const renderAvatar = () => (
     <div className="relative">
-      <Avatar
+      <MyAvatar
         size="large"
         image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
         shape="circle"
@@ -69,7 +70,7 @@ export default function Topbar() {
             `}
         >
           <div className="py-1.5">
-            <Button
+            <MyButton
               text
               className={`flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors w-full justify-start`}
               onClick={() => setIsDarkmode(!isDarkmode)}
@@ -77,7 +78,7 @@ export default function Topbar() {
               label={isDarkmode ? "Light Mode" : "Dark Mode"}
             />
             <hr className="my-1 border-gray-100 dark:border-gray-700" />
-            <Button
+            <MyButton
               text
               className={`flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors w-full justify-start`}
               onClick={() => {
@@ -96,7 +97,7 @@ export default function Topbar() {
   const end = renderAvatar()
 
   return (
-    <Menubar start={start} end={end} 
+    <MyMenubar start={start} end={end} 
     style={topbarBgColor} className="transition-all duration-300 h-16 shadow-sm"/>
   )
 }

@@ -1,8 +1,6 @@
-"use client"
-
 import type React from "react"
 import { useShowSidebar, useAuthStore } from "../../store/index"
-import { Sidebar } from "primereact/sidebar"
+import MySidebar from "../ui/MySidebar"
 import { Link, useNavigate } from "react-router"
 
 interface SidebarLayoutProps {
@@ -23,7 +21,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
 
   return (
     <div className="relative min-h-screen flex">
-      <Sidebar
+      <MySidebar
         visible={showSidebar}
         onHide={() => setShowSidebar(false)}
         className={`w-80`}
@@ -54,7 +52,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
             Logout
           </button>
         </nav>
-      </Sidebar>
+      </MySidebar>
 
       <main
         className="flex-1 w-full"

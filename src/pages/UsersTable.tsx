@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react"
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import { InputText } from "primereact/inputtext"
-import { Dropdown } from "primereact/dropdown"
-import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog"
 import { fetchUsers, deleteUser, updateUser } from "../services/useUsersApi"
+import MyDataTable from "../components/ui/MyDataTable"
+import MyButton from "../components/ui/MyButton"
+import MyInput from "../components/ui/MyInput"
+import MyDropdown from "../components/ui/MyDropdown"
+import MyColumn from "../components/ui/MyColumn"
+
+
 
 interface User {
   id: string
@@ -131,15 +133,15 @@ export default function UsersTable() {
     if (editingUser && editingUser.id === rowData.id) {
       return (
         <div className="flex gap-2">
-          <Button icon="pi pi-check" onClick={handleSaveEdit} severity="success" rounded text aria-label="Save" />
-          <Button icon="pi pi-times" onClick={handleCancelEdit} severity="danger" rounded text aria-label="Cancel" />
+          <MyButton icon="pi pi-check" onClick={handleSaveEdit} severity="success" rounded text aria-label="Save" />
+          <MyButton icon="pi pi-times" onClick={handleCancelEdit} severity="danger" rounded text aria-label="Cancel" />
         </div>
       )
     }
 
     return (
       <div className="flex gap-2">
-        <Button
+        <MyButton
           icon="pi pi-pencil"
           onClick={() => handleEdit(rowData)}
           severity="info"
@@ -147,7 +149,7 @@ export default function UsersTable() {
           text
           aria-label="Edit"
         />
-        <Button
+        <MyButton
           icon="pi pi-trash"
           onClick={() => handleDelete(rowData)}
           severity="danger"
@@ -167,20 +169,20 @@ export default function UsersTable() {
 
     if (field === "role") {
       return (
-        <Dropdown
+        <MyDropdown
           value={value}
           options={roles}
-          onChange={(e) => handleInputChange(field, e.value)}
+          onChange={(e : any) => handleInputChange(field, e.value)}
           className="w-full"
         />
       )
     }
 
     return (
-      <InputText
+      <MyInput
         type="text"
         value={value}
-        onChange={(e) => handleInputChange(field, e.target.value)}
+        onChange={(e : any) => handleInputChange(field, e.target.value)}
         className="w-full"
       />
     )
@@ -188,7 +190,7 @@ export default function UsersTable() {
 
   const renderColumn = (col: ColumnMeta) => {
     return (
-      <Column
+      <MyColumn
         key={col.field}
         field={col.field}
         header={col.header}
@@ -208,7 +210,7 @@ export default function UsersTable() {
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <DataTable
+      <MyDataTable
         value={users}
         tableStyle={{ minWidth: "50rem" }}
         paginator
@@ -217,8 +219,8 @@ export default function UsersTable() {
         emptyMessage="No users found in this big big company"
       >
         {columns.map(renderColumn)}
-        <Column body={actionBodyTemplate} header="Actions" style={{ width: "10rem" }} />
-      </DataTable>
+        <MyColumn body={actionBodyTemplate} header="Actions" style={{ width: "10rem" }} />
+      </MyDataTable>
     </div>
   )
 }

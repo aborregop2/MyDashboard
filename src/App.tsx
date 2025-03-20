@@ -6,6 +6,8 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
 import { useAuthStore } from "./store";
 
+//TODO: Nunito mejor practica
+
 
 function App() {
 
