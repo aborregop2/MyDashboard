@@ -8,15 +8,6 @@
       "password": "12345678",
       "confirmPassword": "12345678",
       "role": "admin"
-    },
-    {
-      "id": "ffa9",
-      "firstName": "asd",
-      "lastName": "asd",
-      "email": "asdasda@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "role": "admin"
     }
   ]
 }
