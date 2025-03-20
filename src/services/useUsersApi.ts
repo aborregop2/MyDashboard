@@ -1,9 +1,6 @@
-//TODO: Dialog delete         - OK
-//TODO: Install Nunito font   - OK
-//TODO: Only one burguer      - OK
-//TODO: <a> to <Link>         - OK
-//TODO: Quitar Darkmodes      - OK
-//TODO: Bug dashboard sidebar - OK
+//TODO: Nunito mejor practica
+//TODO: Responsive
+//TODO: Escalabilizar componentes
 
 export const createUser = async (user: any) => {
     try {

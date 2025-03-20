@@ -96,9 +96,8 @@ export default function Topbar() {
   const end = renderAvatar()
 
   return (
-    <Menubar start={start} end={end} style={topbarBgColor} className="transition-all duration-300 h-16 shadow-sm" 
-    submenuIcon = {undefined}
-    menuIcon = {undefined}/>
+    <Menubar start={start} end={end} 
+    style={topbarBgColor} className="transition-all duration-300 h-16 shadow-sm"/>
   )
 }
 
