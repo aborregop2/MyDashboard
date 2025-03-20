@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext"
 import { Dropdown } from "primereact/dropdown"
 import { Button } from "primereact/button"
 import { Toast } from "primereact/toast"
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog"
 import { fetchUsers, deleteUser, updateUser } from "../services/useUsersApi"
 
 interface User {
@@ -81,7 +82,24 @@ export default function UsersTable() {
     }
   }
 
-  const handleDelete = async (user: User) => {
+  const handleDelete = (user: User) => {
+    confirmDialog({
+      message: "Are you sure you want to delete this user?",
+      header: "Delete Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => confirmDeleteUser(user),
+      reject: () => {
+        toast.current?.show({
+          severity: "info",
+          summary: "Cancelled",
+          detail: "User deletion cancelled",
+        })
+      },
+    })
+  }
+
+  const confirmDeleteUser = async (user: User) => {
     try {
       await deleteUser(user.id)
       setUsers(users.filter((u) => u.id !== user.id))
@@ -188,6 +206,7 @@ export default function UsersTable() {
   return (
     <div className="card mt-4 p-4 ml-4 mr-4">
       <Toast ref={toast} />
+      <ConfirmDialog />
 
       <DataTable
         value={users}

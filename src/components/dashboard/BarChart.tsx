@@ -7,7 +7,7 @@ export default function BarChart() {
     const { isDarkmode } = useDarkmodeStore();
 
     const [barData, setBarData] = useState({});
-    const [barOptions, setBarOptions] = useState({});
+    const [barOptions] = useState({});
 
     // Bar chart effect
     useEffect(() => {
@@ -42,6 +42,8 @@ export default function BarChart() {
       }
       , [barData]);
 
+
+    
     return (
         hasData && (
 

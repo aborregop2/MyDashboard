@@ -29,7 +29,6 @@ export default function ComboChart() {
             label: "Dataset 2",
             backgroundColor: documentStyle.getPropertyValue("--green-500"),
             data: [21, 84, 24, 75, 37, 65, 34],
-            borderColor: isDarkmode ? "#1e293b" : "white",
             borderWidth: 2,
             },
             {

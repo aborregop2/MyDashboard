@@ -188,7 +188,6 @@ const Login = () => {
             <Button
               type="submit"
               label={isSubmitting ? "Signing in..." : "Sign In"}
-              icon={isSubmitting ? "pi pi-spin pi-spinner" : "pi pi-sign-in"}
               className="w-full mt-6"
               disabled={isSubmitting}
             />

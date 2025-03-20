@@ -1,9 +1,9 @@
-//TODO: Dialog delete
-//TODO: Install Nunito font
-//TODO: Only one burguer
-//TODO: <a> to <Link>
-//TODO: Quitar Darkmode
-//TODO: Bug dashboard sidebar
+//TODO: Dialog delete         - OK
+//TODO: Install Nunito font   - OK
+//TODO: Only one burguer      - OK
+//TODO: <a> to <Link>         - OK
+//TODO: Quitar Darkmodes      - OK
+//TODO: Bug dashboard sidebar - OK
 
 export const createUser = async (user: any) => {
     try {

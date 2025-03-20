@@ -1,7 +1,9 @@
+"use client"
+
 import type React from "react"
-import { useShowSidebar, useDarkmodeStore, useAuthStore } from "../../store/index"
+import { useShowSidebar, useAuthStore } from "../../store/index"
 import { Sidebar } from "primereact/sidebar"
-import { useNavigate } from "react-router" 
+import { Link, useNavigate } from "react-router"
 
 interface SidebarLayoutProps {
   children: React.ReactNode
@@ -10,17 +12,21 @@ interface SidebarLayoutProps {
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const { showSidebar, setShowSidebar } = useShowSidebar()
   const { user, setUser } = useAuthStore()
-  const { isDarkmode } = useDarkmodeStore()
   const navigate = useNavigate()
 
-  const sidebarWidth = "20rem" 
+  const sidebarWidth = "20rem"
+
+  const handleLogout = () => {
+    setUser(null)
+    navigate("/")
+  }
 
   return (
     <div className="relative min-h-screen flex">
       <Sidebar
         visible={showSidebar}
         onHide={() => setShowSidebar(false)}
-        className={`w-80 ${isDarkmode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}
+        className={`w-80`}
         position="left"
         showCloseIcon={true}
         modal={false}
@@ -32,28 +38,21 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
           left: 0,
         }}
       >
-        <h2 className={`text-xl font-bold mb-4 ${isDarkmode ? 'text-white' : 'text-gray-800'}`}>
-          The BIG BIG Company
-        </h2>
+        <h2 className={`text-xl font-bold mb-4`}>The BIG BIG Company</h2>
         <nav className="space-y-2">
-          <a href="/dashboard" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-          onClick={() => navigate('/dashboard')}
-          >
+          <Link to="/dashboard" className={`block p-2 rounded`}>
             Dashboard
-          </a>
-          {user?.role === 'admin' ? 
-          <a className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-          onClick={() => navigate('/users_panel')}
-          >
-            Users Panel
-          </a> 
-          : <></>
-          }
-          <a href="/" className={`block p-2 rounded ${isDarkmode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-          onClick={() => {setUser(null)}}
-          >
+          </Link>
+          {user?.role === "admin" ? (
+            <Link to="/users_panel" className={`block p-2 rounded`}>
+              Users Panel
+            </Link>
+          ) : (
+            <></>
+          )}
+          <button onClick={handleLogout} className={`block p-2 rounded w-full text-left`}>
             Logout
-          </a>
+          </button>
         </nav>
       </Sidebar>
 
@@ -70,3 +69,4 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
     </div>
   )
 }
+

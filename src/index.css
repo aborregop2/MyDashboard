@@ -1,4 +1,3 @@
-
 @layer tailwind-base, primereact;
 
 /* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
@@ -9,5 +8,14 @@
 
 @layer tailwind-base {
   @import 'tailwindcss';
+}
+
+
+.p-component {
+  font-family: "Nunito", sans-serif;
+}
+
+.p-menubar-button {
+  display: none;
 }
 
