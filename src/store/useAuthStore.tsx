@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 
+
+//TODO: localstorage
+//TODO: dark de tailwind
 type User = {
     email: string;
     role: string;

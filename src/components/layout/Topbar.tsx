@@ -15,6 +15,7 @@ export default function Topbar() {
   const [showMenu, setShowMenu] = useState(false)
   const navigate = useNavigate()
 
+  //TODO: Esto aqui no, store
   const changeTheme = (theme: string) => {
     const existingLink = document.getElementById("theme-link")
     if (existingLink) existingLink.remove()
@@ -25,13 +26,13 @@ export default function Topbar() {
     link.href = theme === "dark" ? "/dark-blue.css" : "/light-blue.css"
     document.head.appendChild(link)
   }
-
   changeTheme(isDarkmode ? "dark" : "light")
+  //TODO: 
 
-  const topbarBgColor = !isDarkmode ? { backgroundColor: "#12a14b" } : {}
+  //const topbarBgColor = !isDarkmode ? { backgroundColor: "#12a14b" } : {}
 
   const start = (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 bg-green-100 dark:bg-blue-800">
       {user && (
         <Menu
           size={30}
@@ -69,7 +70,9 @@ export default function Topbar() {
             transition-all duration-200 origin-top-right animate-slide-down ${isDarkmode ? 'bg-slate-800' : 'bg-white'}
             `}
         >
+          {/*TODO: Componente aparte */}
           <div className="py-1.5">
+
             <MyButton
               text
               className={`flex items-center px-4 py-2.5 text-sm hover:bg-gray-100/20 transition-colors w-full justify-start`}
@@ -98,7 +101,7 @@ export default function Topbar() {
 
   return (
     <MyMenubar start={start} end={end} 
-    style={topbarBgColor} className="transition-all duration-300 h-16 shadow-sm"/>
+     className="transition-all duration-300 h-16 shadow-sm"/>
   )
 }
 

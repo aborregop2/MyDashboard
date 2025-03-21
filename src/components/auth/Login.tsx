@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form"
 import { Toast } from "primereact/toast"
 import MyInput from "../ui/MyInput"
 import MyButton from "../ui/MyButton"
-import { Checkbox } from "primereact/checkbox"
+import MyCheckbox from "../ui/MyCheckbox"
 import { classNames } from "primereact/utils"
 import { useAuthStore, useInLogin } from "../../store"
 import { useNavigate } from "react-router"
@@ -176,7 +176,7 @@ const Login = () => {
                 control={control}
                 render={({ field }) => (
                   <div className="flex items-center">
-                    <Checkbox
+                    <MyCheckbox
                       inputId={field.name}
                       checked={field.value}
                       onChange={(e : any) => field.onChange(e.checked)}
