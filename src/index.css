@@ -1,4 +1,4 @@
-@layer myLayer, tailwind-base, primereact;
+@layer tailwind-base, primereact;
 
 /* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
 @layer primereact {
@@ -10,9 +10,17 @@
   @import 'tailwindcss';
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
 
 
 
+
+
+
+
+
+
+/* WARNING */
 .p-menubar-button {
   display: none;
 }

@@ -39,9 +39,8 @@ export default function PieChart() {
   return (
     hasData && (
       <div
-        className={`${
-          isDarkmode ? "bg-slate-800 border-slate-700" : "bg-white border-gray-100"
-        } rounded-xl border h-full p-4 sm:p-6 md:p-8 flex justify-center items-center`}
+        className="bg-white border-gray-100 dark:bg-slate-800 dark:border-slate-700
+        rounded-xl border h-full p-4 sm:p-6 md:p-8 flex justify-center items-center"
       >
         <MyChart type="pie" data={pieData} className="w-full max-w-[500px] h-auto" />
       </div>

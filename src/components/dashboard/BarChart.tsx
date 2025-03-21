@@ -37,9 +37,8 @@ export default function BarChart() {
   return (
     hasData && (
       <div
-        className={`p-4 sm:p-6 md:p-8 ${
-          isDarkmode ? "bg-slate-800 border-slate-700" : "bg-white border-gray-100"
-        } rounded-xl border h-full flex flex-col justify-center`}
+        className={`p-4 sm:p-6 md:p-8 bg-white border-gray-100 dark:bg-slate-800 dark:border-slate-700 
+         rounded-xl border h-full flex flex-col justify-center`}
       >
         <MyChart type="bar" data={barData} className="w-full h-full" />
       </div>

@@ -47,9 +47,9 @@ export default function ComboChart() {
   return (
     hasData && (
       <div
-        className={`flex flex-col justify-center items-center h-full p-4 sm:p-6 md:p-8 ${
-          isDarkmode ? "bg-slate-800 border-slate-700" : "bg-white border-gray-100"
-        } rounded-xl border`}
+        className="flex flex-col justify-center items-center h-full p-4 sm:p-6 md:p-8 
+          bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700
+          rounded-xl border"
       >
         <MyChart type="bar" data={comboData} className="w-full h-full" />
       </div>

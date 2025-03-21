@@ -4,16 +4,14 @@ import Dashboard from "./pages/Dashboard";
 import UsersTable from "./pages/UsersTable";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
-import { useAuthStore } from "./store";
-
-//TODO: Nunito mejor practica
-
+import { useAuthStore, useDarkmodeStore } from "./store";
 
 function App() {
 
   const {user} = useAuthStore();
+  const {isDarkmode} = useDarkmodeStore();
   console.log(user)
-  
+
   return (
     <>
     <BrowserRouter>

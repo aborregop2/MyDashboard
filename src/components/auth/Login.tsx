@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { Toast } from "primereact/toast"
 import MyInput from "../ui/MyInput"
@@ -26,6 +26,22 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user-storage');
+    
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setUser(user);
+        setShowSidebar(false);
+        navigate('/dashboard');
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
 
   const {
     control,
