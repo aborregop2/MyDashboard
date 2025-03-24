@@ -12,13 +12,7 @@ const useDarkmodeStore = create<DarkmodeStore>((set) => ({
   setIsDarkmode: (isDarkmode) => {
     set({ isDarkmode });
     
-    localStorage.theme = isDarkmode ? 'dark' : 'light';
-
-    document.documentElement.classList.toggle(
-      "dark",
-      localStorage.theme === "dark" ||
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-    );    
+    //localStorage.theme = isDarkmode ? 'dark' : 'light';
 
     const themeLink = document.getElementById('theme-link') as HTMLLinkElement;
 
@@ -26,6 +20,14 @@ const useDarkmodeStore = create<DarkmodeStore>((set) => ({
       themeLink.rel = 'stylesheet';
       themeLink.href = isDarkmode ? '../../public/dark-blue.css' : '../../public/light-blue.css';
     }
+
+    document.documentElement.classList.toggle(
+      "dark",
+      localStorage.theme === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+    );   
+
+    
 
     console.log('themeLink', themeLink);
   },
