@@ -13,6 +13,9 @@ const useDarkmodeStore = create<DarkmodeStore>((set) => ({
     
     localStorage.theme = isDarkmode ? 'dark' : 'light';
 
+    console.log(localStorage.theme)
+    console.log(isDarkmode)
+
     document.documentElement.classList.toggle(
       "dark",
       localStorage.theme === "dark" ||
