@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import PrimeReact from "primereact/api";
 
 type DarkmodeStore = {
   isDarkmode: boolean;
@@ -7,7 +6,7 @@ type DarkmodeStore = {
 };
 
 const useDarkmodeStore = create<DarkmodeStore>((set) => ({
-  isDarkmode: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+  isDarkmode: !(localStorage.theme === 'light') || window.matchMedia('(prefers-color-scheme: dark)').matches,
   
   setIsDarkmode: (isDarkmode) => {
     set({ isDarkmode });
@@ -18,16 +17,20 @@ const useDarkmodeStore = create<DarkmodeStore>((set) => ({
       "dark",
       localStorage.theme === "dark" ||
         (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-    );    
-
+    );
+    
+    
     const themeLink = document.getElementById('theme-link') as HTMLLinkElement;
-
     if (themeLink) {
-      themeLink.rel = 'stylesheet';
-      themeLink.href = isDarkmode ? '../../public/dark-blue.css' : '../../public/light-blue.css';
+      themeLink.remove();
+    
+      const newLink = document.createElement("link") as HTMLLinkElement
+      newLink.id = "theme-link"
+      newLink.rel = "stylesheet"
+      newLink.href = isDarkmode ? "/dark-blue.css" : "/light-blue.css"
+      document.head.appendChild(newLink)
     }
 
-    console.log('themeLink', themeLink);
   },
 
 }));
