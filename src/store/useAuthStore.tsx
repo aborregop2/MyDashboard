@@ -12,14 +12,14 @@ type UserStore = {
 
 const useAuthStore = create<UserStore>((set) => ({
     user: (() => {
-        const storedUser = localStorage.getItem('user-storage');
+        const storedUser = localStorage.getItem('userStorage');
         return storedUser ? JSON.parse(storedUser) : null;
     })(),
     setUser: (user) => {
         if (user) {
-            localStorage.setItem('user-storage', JSON.stringify(user));
+            localStorage.setItem('userStorage', JSON.stringify(user));
         } else {
-            localStorage.removeItem('user-storage');
+            localStorage.removeItem('userStorage');
         }
         set({ user });
     },

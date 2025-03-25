@@ -12,6 +12,7 @@
     "reset-db": "node -e \"const fs = require('fs'); fs.copyFileSync('./data/db_example.json', './data/db.json')\""
   },
   "dependencies": {
+    "@fontsource/nunito": "^5.2.5",
     "@tailwindcss/vite": "^4.0.13",
     "chart.js": "^4.4.8",
     "json-server": "^1.0.0-beta.3",

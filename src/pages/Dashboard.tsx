@@ -15,6 +15,9 @@ export default function Dashboard() {
       <div className="h-[350px] sm:h-[400px] lg:h-[500px] bg-card rounded-lg shadow overflow-hidden">
         <ComboChart />
       </div>
+
+      <GoogleMap />
+
     </div>
   )
 }

@@ -1,10 +1,8 @@
 import { Navigate, Outlet } from 'react-router';
-import { useAuthStore } from '../store';
 
 const ProtectedRoute = () => {
 
-  const {user}  = useAuthStore();
-
+  const user = localStorage.userStorage;
 
   if (!user) {
     return <Navigate to="/" replace />

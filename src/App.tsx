@@ -4,21 +4,31 @@ import Dashboard from "./pages/Dashboard";
 import UsersTable from "./pages/UsersTable";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./layouts/Layout";
-import { useAuthStore, useDarkmodeStore } from "./store";
+import { useAuthStore } from "./store";
 import NotFound from "./pages/NotFound";
+import RedirectAuthenticatedRoute from "./routes/RedirectAuthenticatedRoute";
 
-const savedDarkMode = localStorage.getItem('darkMode');
+
+//TODO: NUNITO -OK
+//TODO: BUG F5 -OK
+//TODO: BUG404 -
+
+
+const savedDarkMode = localStorage.getItem('theme');
 const prefersDarkMode = savedDarkMode !== null 
-  ? savedDarkMode === 'true'
+  ? savedDarkMode === 'dark'
   : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  if (prefersDarkMode) {
-    import('../public/dark-blue.css');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    import('../public/light-blue.css');
-    localStorage.setItem('theme', 'light');
-  }
+// Apply theme to document and update localStorage
+if (prefersDarkMode) {
+  document.documentElement.classList.add('dark');
+  import('../public/dark-blue.css');
+  localStorage.setItem('theme', 'dark');
+} else {
+  document.documentElement.classList.remove('dark');
+  import('../public/light-blue.css');
+  localStorage.setItem('theme', 'light');
+}
 
 function App() {
 
@@ -29,8 +39,10 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Authentication />} />
-          
+        <Route element={<RedirectAuthenticatedRoute route="/dashboard" />} >
+          <Route path="/" element={<Authentication />} />
+        </Route>
+        
         <Route element={<ProtectedRoute/>} >
           <Route element={<Layout/>} >
               <Route path="/dashboard" element={<Dashboard />} />
