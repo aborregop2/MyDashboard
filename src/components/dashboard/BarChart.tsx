@@ -23,10 +23,10 @@ export default function BarChart() {
             "rgba(153, 102, 255, 0.2)",
           ],
           borderColor: [
-            "rgb(204, 102, 0)",     // Borde naranja oscuro
-            "rgb(0, 128, 128)",     // Borde verde-azulado oscuro
-            "rgb(0, 82, 204)",      // Borde azul intenso
-            "rgb(102, 0, 204)"      // Borde púrpura oscuro
+            "rgb(204, 102, 0)",    
+            "rgb(0, 128, 128)",   
+            "rgb(0, 82, 204)",      
+            "rgb(102, 0, 204)"      
           ],
           borderWidth: 1,
         },

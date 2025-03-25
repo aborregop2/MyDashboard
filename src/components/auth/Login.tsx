@@ -78,6 +78,7 @@ const Login = () => {
       console.log("Login successful")
       console.log("User:", user)
       navigate("/dashboard")
+      
     } catch (error) {
       console.error("Login failed:", error)
       setIsSubmitting(false)

@@ -8,7 +8,6 @@ export default function PieChart() {
   const [pieData, setPieData] = useState({})
   const [pieOptions, setPieOptions] = useState({})
 
-  // Pie chart effect
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement)
     const pieChartData = {
@@ -34,7 +33,6 @@ export default function PieChart() {
 
     setPieData(pieChartData)
 
-    // Set options for dark mode
     const options = {
       responsive: true,
       maintainAspectRatio: false,

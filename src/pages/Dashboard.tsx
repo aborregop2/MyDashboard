@@ -1,4 +1,5 @@
 import { BarChart, PieChart, ComboChart } from "../components/dashboard"
+import { Map } from "../components/dashboard/"
 
 export default function Dashboard() {
   return (
@@ -16,7 +17,7 @@ export default function Dashboard() {
         <ComboChart />
       </div>
 
-      <GoogleMap />
+      <Map />
 
     </div>
   )
